@@ -4,8 +4,6 @@ add_library(${PROJECT_NAME}
     ${SRCS}
 )
 
-add_dependencies(${PROJECT_NAME} ${EXTERNAL_PROJECTS} ${EXTERNAL_TEST_PROJECTS})
-
 add_executable(Main
     Main.cpp
 )
