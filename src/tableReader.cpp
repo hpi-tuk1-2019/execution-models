@@ -8,7 +8,7 @@ table readFile(std::string filename) {
     std::ifstream file(filename);
 
     table fileTable;
-    
+
     if (file.is_open())
     {
         std::string value;
