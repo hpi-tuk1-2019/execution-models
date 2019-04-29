@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#create header, source and test files for a given name
+# create header, source and test files for a given name
 # bash create.sh ClassName
 
 cp src/Template.hpp src/$1.hpp
