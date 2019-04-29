@@ -2,7 +2,6 @@
 
 #include <string>
 #include <fstream>
-#include <iostream>
 
 table readFile(std::string filename) {
     std::ifstream file(filename);
@@ -21,8 +20,9 @@ table readFile(std::string filename) {
 
             // col2
             std::getline(file, value, ',');
-            fileTable.col2.push_back(value);
+
+            dbString col2Value;
+            std::copy(value.begin(), value.end(), col2Value);
+            fileTable.col2.push_back(col2Value);
         }
-
-
 }
