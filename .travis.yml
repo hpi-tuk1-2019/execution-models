@@ -1,0 +1,35 @@
+# Enable C++ support
+language: cpp
+
+matrix:
+  include:
+    - compiler: gcc
+      install: export CXX=g++-4.9 CC=gcc-4.9
+    - compiler: clang
+
+before_script:
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip install --user hfcca
+  - pip install --user cpplint
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
+      - gcc-4.9
+      - g++-4.9
+      - doxygen
+      - valgrind
+      - cppcheck
+
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - ctest -j 10 -T memcheck
+  - make review
