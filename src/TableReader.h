@@ -3,6 +3,8 @@
 
 typedef std::array<char, 45> dbString;
 
+// column based representation of the LINEITEM TPCH table
+
 struct table {
     std::vector<int> l_orderkey; // id
     std::vector<int> l_partkey; // id
