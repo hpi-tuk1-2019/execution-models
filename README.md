@@ -1,14 +1,10 @@
-# cmake-bootstrap
-CMake project template with C++11 and gtest support
+# execution-models
+This repository is used to compare query performance of compiled and vectorized queries using the TPCH queries.
 
-# How to use
-Clone this repository, change ProjectName in CMakeFile.txt and then:
+
+# How to install
 ```
 cd build
 cmake ..
 make -j 8
 ```
-
-ADD LOG4CXXX
-ADD cppdoc
-ADD more C++14 examples
