@@ -6,6 +6,7 @@ typedef std::array<char, 45> dbString;
 // column based representation of the LINEITEM TPCH table
 
 struct table {
+    // lineitem table
     std::vector<int> l_orderkey; // id
     std::vector<int> l_partkey; // id
     std::vector<int> l_suppkey; // id
@@ -24,4 +25,7 @@ struct table {
     std::vector<dbString> l_comment; // variable text size 44
 };
 
-table readFile(std::string filename);
+table readFile(std::string filename, const char delim);
+int parseInt(std::ifstream& file, const char delim);
+dbString parseString(std::ifstream& file, const char delim);
+char parseChar(std::ifstream& file, const char delim);
