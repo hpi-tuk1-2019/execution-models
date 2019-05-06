@@ -1,10 +1,11 @@
-// Copyright 2017 <ggarber@github>
-
-#include "Template.hpp"
+#include "TableReader.h"
+#include <string>
 
 int main(int argc, char *argv[]) {
-    bootstrap::Template foo;
-    foo.run();
+    std::string filename = "../../assets/sample_data/lineitem.tbl";
+    char delim = '|';
+
+    auto table = readFile(filename, delim);
 
     return 0;
 }
