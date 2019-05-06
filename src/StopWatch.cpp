@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "StopWatch.h"
 
 StopWatch::StopWatch(std::string st_name) {
@@ -18,4 +19,17 @@ void StopWatch::tok() {
 void StopWatch::print_stats() {
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
   std::cout << name <<  ": Execution Time: " << duration << " ms" << std::endl;
+  measurements.push_back(duration);
+}
+
+void StopWatch::write_to_file(std::string filename) {
+    std::ofstream file(filename);
+
+    if (!file.is_open()) {
+        std::cout << "File cannot be opened";
+    }
+
+    for (auto& m : measurements) {
+        file << name + "," + std::to_string(m) + "\n";
+    }
 }

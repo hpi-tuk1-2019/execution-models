@@ -13,10 +13,12 @@ int main(int argc, char *argv[]) {
     reading.tok();
     reading.print_stats();
   
-    reading.tik();
+    StopWatch scan = StopWatch("scan table");
+    scan.tik();
     auto newTable = filterValuesSmaller(fileTable, fileTable.l_receiptdate, 1996);
-    reading.tok();
-    reading.print_stats();
+    scan.tok();
+    scan.print_stats();
+    scan.write_to_file("../../data/test.csv");
 
     return 0;
 }
