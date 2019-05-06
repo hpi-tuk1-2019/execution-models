@@ -1,8 +1,9 @@
+#pragma once
 #include "Scan.h"
+#include "StopWatch.h"
 #include <string>
 #include <iostream>
 #include <chrono>
-#include "StopWatch.h"
 
 void print_char_array(std::array<char, 45> char_array) {
 	for (int i = 0; i < sizeof(char_array); i++) {
@@ -49,7 +50,7 @@ int main(int argc, char *argv[]) {
     reading.tok();
     reading.print_stats();
 
-    print_sample(table);
+    print_sample(newTable);
 
     return 0;
 }
