@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   
     StopWatch reading = StopWatch("reading csv");
     reading.tik();
-    auto table = readFile(filename, delim);
+    auto fileTable = readFile(filename, delim);
     reading.tok();
     reading.print_stats();
   
