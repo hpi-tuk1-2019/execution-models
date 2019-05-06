@@ -3,7 +3,9 @@ This repository is used to compare query performance of compiled and vectorized 
 
 
 # How to install
+
 ```
+mkdir build
 cd build
 cmake ..
 make -j 8
