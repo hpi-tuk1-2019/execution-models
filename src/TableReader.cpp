@@ -33,11 +33,12 @@ table readFile(std::string filename, const char delim)
 {
     std::ifstream file(filename);
     table fileTable;
-    
+
     if (!file.is_open()) {
         std::cout << "File cannot be opened";
         return fileTable;
     }
+
 
     // length of table and columntypes from lineitem.tbl
     for(int i = 0; i < 6005; ++i)
@@ -58,8 +59,10 @@ table readFile(std::string filename, const char delim)
         fileTable.l_shipinstruct.push_back(parseString(file, delim));
         fileTable.l_shipmode.push_back(parseString(file, delim));
         fileTable.l_comment.push_back(parseString(file, delim));
+
+
+        std::cout << " Size:" << fileTable.l_orderkey.size() << std::endl;
     }
     
     return fileTable;
 }
-
