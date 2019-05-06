@@ -1,3 +1,4 @@
+#pragma once
 #include "TableReader.h"
 
 table filterTable(const std::vector<bool>& bitmap, const table& oldTable);
