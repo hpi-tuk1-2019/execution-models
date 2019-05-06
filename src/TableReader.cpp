@@ -59,9 +59,6 @@ table readFile(std::string filename, const char delim)
         fileTable.l_shipinstruct.push_back(parseString(file, delim));
         fileTable.l_shipmode.push_back(parseString(file, delim));
         fileTable.l_comment.push_back(parseString(file, delim));
-
-
-        std::cout << " Size:" << fileTable.l_orderkey.size() << std::endl;
     }
     
     return fileTable;
