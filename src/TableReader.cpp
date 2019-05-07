@@ -1,9 +1,10 @@
 #include "TableReader.h"
-
 #include <string>
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 
 
 int parseInt(std::ifstream& file, const char delim) {
@@ -27,6 +28,16 @@ char parseChar(std::ifstream& file, const char delim) {
         std::cout << "This is not a char column, something went wrong";
     }
     return value.front();
+}
+
+int parseDate(std::ifstream& file, const char delim) {
+  std::string value;
+  std::tm t = {};
+  std::getline(file, value, delim);
+  std::istringstream ss(value);
+  ss >> std::get_time(&t, "%Y-%m-%d");
+  int date = mktime(&t);
+  return date;
 }
 
 table readFile(std::string filename, const char delim)
@@ -53,13 +64,13 @@ table readFile(std::string filename, const char delim)
         fileTable.l_tax.push_back(parseInt(file, delim));
         fileTable.l_returnflag.push_back(parseChar(file, delim));
         fileTable.l_linestatus.push_back(parseChar(file, delim));
-        fileTable.l_shipdate.push_back(parseInt(file, delim));
-        fileTable.l_commitdate.push_back(parseInt(file, delim));
-        fileTable.l_receiptdate.push_back(parseInt(file, delim));
+        fileTable.l_shipdate.push_back(parseDate(file, delim));
+        fileTable.l_commitdate.push_back(parseDate(file, delim));
+        fileTable.l_receiptdate.push_back(parseDate(file, delim));
         fileTable.l_shipinstruct.push_back(parseString(file, delim));
         fileTable.l_shipmode.push_back(parseString(file, delim));
         fileTable.l_comment.push_back(parseString(file, delim));
     }
-    
+
     return fileTable;
 }
