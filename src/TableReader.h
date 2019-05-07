@@ -30,3 +30,4 @@ table readFile(std::string filename, const char delim);
 int parseInt(std::ifstream& file, const char delim);
 dbString parseString(std::ifstream& file, const char delim);
 char parseChar(std::ifstream& file, const char delim);
+int parseDate(std::ifstream& file, const char delim);
