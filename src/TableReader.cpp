@@ -13,6 +13,13 @@ int parseInt(std::ifstream& file, const char delim) {
     return std::stoi(value);
 }
 
+int parseDecimal(std::ifstream& file, const char delim){
+    std::string value;
+    std::getline(file, value, delim);
+    double real_value = std::stod(value);
+    return (int)(real_value * 100);
+}
+
 dbString parseString(std::ifstream& file, const char delim) {
     std::string fileValue;
     dbString dbValue;
@@ -58,10 +65,10 @@ table readFile(std::string filename, const char delim)
         fileTable.l_partkey.push_back(parseInt(file, delim));
         fileTable.l_suppkey.push_back(parseInt(file, delim));
         fileTable.l_linenumber.push_back(parseInt(file, delim));
-        fileTable.l_quantity.push_back(parseInt(file, delim));
-        fileTable.l_extendedprice.push_back(parseInt(file, delim));
-        fileTable.l_discount.push_back(parseInt(file, delim));
-        fileTable.l_tax.push_back(parseInt(file, delim));
+        fileTable.l_quantity.push_back(parseDecimal(file, delim));
+        fileTable.l_extendedprice.push_back(parseDecimal(file, delim));
+        fileTable.l_discount.push_back(parseDecimal(file, delim));
+        fileTable.l_tax.push_back(parseDecimal(file, delim));
         fileTable.l_returnflag.push_back(parseChar(file, delim));
         fileTable.l_linestatus.push_back(parseChar(file, delim));
         fileTable.l_shipdate.push_back(parseDate(file, delim));
