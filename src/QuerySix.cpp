@@ -2,9 +2,9 @@
 #include "QuerySix.h"
 #include <vector>
 
-double QuerySix::execute(table *tab){
+double QuerySix::execute(const table& tab){
   std::vector<int> initial_indices;
-  for (int i = 0; i < tab->l_extendedprice.size(); i++) {
+  for (int i = 0; i < tab.l_extendedprice.size(); i++) {
     initial_indices.push_back(i);
   }
   std::vector<int> indices1 = op_discount_between(tab, initial_indices);
@@ -14,50 +14,50 @@ double QuerySix::execute(table *tab){
   return op_agg_sum(tab, indices4);
 }
 
-double QuerySix::op_agg_sum(table *tab, std::vector<int> old_inds){
+double QuerySix::op_agg_sum(const table& tab, std::vector<int> old_inds){
   double sum = 0;
-  for (int i = 0; i < old_inds.size(); i++) {
-    sum += tab->l_extendedprice[old_inds[i]] * tab->l_discount[old_inds[i]];
+  for (auto i : old_inds) {
+    sum += tab.l_extendedprice[i] * tab.l_discount[i];
   }
   return (double)sum / 10000.0;
 
 }
 
-std::vector<int> QuerySix::op_shipdate_ge(table *tab, std::vector<int> old_inds){
+std::vector<int> QuerySix::op_shipdate_ge(const table& tab, std::vector<int> old_inds){
   std::vector<int> indices;
-  for (int i = 0; i < old_inds.size(); i++) {
-    if (tab->l_shipdate[old_inds[i]] >= 757382400) {
-      indices.push_back(old_inds[i]);
+  for (auto i : old_inds) {
+    if (tab.l_shipdate[i] >= 757382400) {
+      indices.push_back(i);
     }
   }
   return indices;
 }
 
-std::vector<int> QuerySix::op_shipdate_s(table *tab, std::vector<int> old_inds){
+std::vector<int> QuerySix::op_shipdate_s(const table& tab, std::vector<int> old_inds){
   std::vector<int> indices;
-  for (int i = 0; i < old_inds.size(); i++) {
-    if (tab->l_shipdate[old_inds[i]] < 788918400) {
-      indices.push_back(old_inds[i]);
+  for (auto i : old_inds) {
+    if (tab.l_shipdate[i] < 788918400) {
+      indices.push_back(i);
     }
   }
   return indices;
 }
 
-std::vector<int> QuerySix::op_quantity_s(table *tab, std::vector<int> old_inds){
+std::vector<int> QuerySix::op_quantity_s(const table& tab, std::vector<int> old_inds){
   std::vector<int> indices;
-  for (int i = 0; i < old_inds.size(); i++) {
-    if (tab->l_quantity[old_inds[i]] < 2400) {
-      indices.push_back(old_inds[i]);
+  for (auto i : old_inds) {
+    if (tab.l_quantity[i] < 2400) {
+      indices.push_back(i);
     }
   }
   return indices;
 }
 
-std::vector<int> QuerySix::op_discount_between(table *tab, std::vector<int> old_inds){
+std::vector<int> QuerySix::op_discount_between(const table& tab, std::vector<int> old_inds){
   std::vector<int> indices;
-  for (int i = 0; i < old_inds.size(); i++) {
-    if ((tab->l_discount[old_inds[i]] >= 5) && (tab->l_discount[old_inds[i]]) <= 7) {
-      indices.push_back(old_inds[i]);
+  for (auto i : old_inds) {
+    if ((tab.l_discount[i] >= 5) && (tab.l_discount[i]) <= 7) {
+      indices.push_back(i);
     }
   }
   return indices;

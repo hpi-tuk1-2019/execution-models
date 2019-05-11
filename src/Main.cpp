@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
 		auto q = QuerySix();
-		std::cout << q.execute(&fileTable) << std::endl;
+		std::cout << q.execute(fileTable) << std::endl;
 
     // reading.print_stats();
     // reading.tik();
