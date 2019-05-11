@@ -14,12 +14,12 @@ void StopWatch::tik() {
 
 void StopWatch::tok() {
   stop = std::chrono::steady_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+  measurements.push_back(duration);
 }
 
 void StopWatch::print_stats() {
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
-  std::cout << name <<  ": Execution Time: " << duration << " ms" << std::endl;
-  measurements.push_back(duration);
+  std::cout << name <<  ": Execution Time: " << measurements.back() << " ms" << std::endl;
 }
 
 void StopWatch::write_to_file(std::string filename) {
