@@ -1,6 +1,6 @@
 #pragma once
-#include "Scan.h"
 #include "StopWatch.h"
+#include "QuerySix.h"
 #include <string>
 #include <iostream>
 #include <chrono>
@@ -38,21 +38,14 @@ void print_sample(table table_obj, int sample_size = 20) {
 int main(int argc, char *argv[]) {
     std::string filename = "../../assets/sample_data/lineitem.tbl";
     char delim = '|';
-		
+
     StopWatch reading = StopWatch("reading csv");
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
-    reading.print_stats();
-  
-    StopWatch scan = StopWatch("scan table");
-    scan.tik();
-    auto newTable = filterValuesSmaller(fileTable, fileTable.l_receiptdate, 1996);
-    scan.tok();
-    scan.print_stats();
-    scan.write_to_file("../../data/test.csv");
 
-    print_sample(newTable);
+		auto q = QuerySix();
+		std::cout << q.execute(fileTable) << std::endl;
 
     return 0;
 }
