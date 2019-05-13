@@ -44,10 +44,13 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
     reading.print_stats();
-    reading.tik();
-    auto newTable = filterValuesSmaller(fileTable, fileTable.l_receiptdate, 820454400);
-    reading.tok();
-    reading.print_stats();
+  
+    StopWatch scan = StopWatch("scan table");
+    scan.tik();
+    auto newTable = filterValuesSmaller(fileTable, fileTable.l_receiptdate, 1996);
+    scan.tok();
+    scan.print_stats();
+    scan.write_to_file("../../data/test.csv");
 
     print_sample(newTable);
 
