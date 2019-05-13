@@ -10,4 +10,5 @@ class QuerySix {
     std::vector<int> op_discount_se(const table& tab, std::vector<int> old_inds);
   public:
     double execute(const table& tab);
+    double execute_compiled(const table& tab);
 };
