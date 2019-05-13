@@ -43,16 +43,9 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
+
 		auto q = QuerySix();
 		std::cout << q.execute(fileTable) << std::endl;
-
-    // reading.print_stats();
-    // reading.tik();
-    // auto newTable = filterValuesSmaller(fileTable, fileTable.l_receiptdate, 820454400);
-    // reading.tok();
-    // reading.print_stats();
-		//
-    // print_sample(newTable);
 
     return 0;
 }
