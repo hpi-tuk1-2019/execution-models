@@ -1,5 +1,4 @@
 #pragma once
-#include "Scan.h"
 #include "StopWatch.h"
 #include "QuerySix.h"
 #include <string>
