@@ -10,3 +10,6 @@ cd build
 cmake ..
 make -j 8
 ```
+
+# How to save profiling values
+Create folder data for profiling files
