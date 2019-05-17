@@ -8,9 +8,9 @@ double QuerySix::execute(const table& tab){
     initial_indices.push_back(i);
   }
   std::vector<int> indices1 = op_discount_between(tab, initial_indices);
-  std::vector<int> indices2 = op_quantity_s(tab, indices1);
-  std::vector<int> indices3 = op_shipdate_s(tab, indices2);
-  std::vector<int> indices4 = op_shipdate_ge(tab, indices3);
+  std::vector<int> indices2 = op_shipdate_s(tab, indices1);
+  std::vector<int> indices3 = op_shipdate_ge(tab, indices2);
+  std::vector<int> indices4 = op_quantity_s(tab, indices3);
   return op_agg_sum(tab, indices4);
 }
 
