@@ -1,6 +1,7 @@
 #pragma once
 #include "StopWatch.h"
 #include "QuerySix.h"
+#include "QueryOne.h"
 #include <string>
 #include <iostream>
 #include <chrono>
@@ -44,8 +45,12 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
 
-		auto q = QuerySix();
-		std::cout << q.execute(fileTable) << std::endl;
+	auto q = QuerySix();
+	std::cout << q.execute(fileTable) << std::endl;
+
+    auto q1 = QueryOne();
+    q1.execute(fileTable);
+    std::cout << "just executed query 1";
 
     return 0;
 }
