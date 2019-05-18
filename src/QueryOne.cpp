@@ -40,11 +40,11 @@ std::vector<int> QueryOne::op_group_returnflag_linestatus(const table& tab, std:
   return groups;
 }
 
-std::vector<int> QueryOne::op_sum_qty(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
+std::vector<long long int> QueryOne::op_sum_qty(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
 {
-    std::vector<int> sum_qty(groups.size() - 1);
+    std::vector<long long int> sum_qty(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
             sum += tab.l_quantity[old_inds[j]];
         }
@@ -53,11 +53,11 @@ std::vector<int> QueryOne::op_sum_qty(const table & tab, std::vector<int> old_in
     return sum_qty;
 }
 
-std::vector<int> QueryOne::op_sum_base_price(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
+std::vector<long long int> QueryOne::op_sum_base_price(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
 {
-    std::vector<int> sum_base_price(groups.size() - 1);
+    std::vector<long long int> sum_base_price(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
             sum += tab.l_extendedprice[old_inds[j]];
         }
@@ -66,26 +66,26 @@ std::vector<int> QueryOne::op_sum_base_price(const table & tab, std::vector<int>
     return sum_base_price;
 }
 
-std::vector<int> QueryOne::op_sum_disk_price(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
+std::vector<long long int> QueryOne::op_sum_disk_price(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
 {
-    std::vector<int> sum_disk_price(groups.size() - 1);
+    std::vector<long long int> sum_disk_price(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
-            sum += tab.l_extendedprice[old_inds[j]] * (1 - tab.l_discount[old_inds[j]]);
+            sum += tab.l_extendedprice[old_inds[j]] * (100 - tab.l_discount[old_inds[j]]);
         }
         sum_disk_price[i] = sum;
     }
     return sum_disk_price;
 }
 
-std::vector<int> QueryOne::op_sum_charge(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
+std::vector<long long int> QueryOne::op_sum_charge(const table & tab, std::vector<int> old_inds, std::vector<int> groups)
 {
-    std::vector<int> sum_charge(groups.size() - 1);
+    std::vector<long long int> sum_charge(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
-            sum += tab.l_extendedprice[old_inds[j]] * (1 - tab.l_discount[old_inds[j]]) * (1 + tab.l_tax[old_inds[j]]);
+            sum += tab.l_extendedprice[old_inds[j]] * (100 - tab.l_discount[old_inds[j]]) * (100 + tab.l_tax[old_inds[j]]);
         }
         sum_charge[i] = sum;
     }
@@ -96,7 +96,7 @@ std::vector<double> QueryOne::op_avg_qty(const table & tab, std::vector<int> old
 {
     std::vector<double> avg_qty(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
             sum += tab.l_quantity[old_inds[j]];
         }
@@ -110,7 +110,7 @@ std::vector<double> QueryOne::op_avg_price(const table & tab, std::vector<int> o
 {
     std::vector<double> avg_price(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
             sum += tab.l_extendedprice[old_inds[j]];
         }
@@ -124,7 +124,7 @@ std::vector<double> QueryOne::op_avg_disc(const table & tab, std::vector<int> ol
 {
     std::vector<double> avg_disc(groups.size() - 1);
     for (int i = 0; i < groups.size() - 1; i++) {
-        int sum = 0;
+        long long int sum = 0;
         for (int j = groups[i]; j < groups[i + 1]; j++) {
             sum += tab.l_discount[old_inds[j]];
         }
