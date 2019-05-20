@@ -15,7 +15,7 @@ struct ResultTable {
 
 class QueryOne {
   private:
-    std::vector<int> op_shipdate_se(const table& tab, std::vector<int> old_inds);
+    std::vector<int> op_shipdate_se(const table& tab);
     std::vector<int> op_sort_returnflag_linestatus(const table& tab, std::vector<int> old_inds);
     std::vector<int> op_group_returnflag_linestatus(const table& tab, std::vector<int> old_inds, ResultTable& resultTable);
     std::vector<long long int> op_sum_qty(const table& tab, std::vector<int> old_inds, std::vector<int> groups);

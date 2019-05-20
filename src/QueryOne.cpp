@@ -4,12 +4,8 @@
 #include <algorithm>
 
 ResultTable QueryOne::execute(const table& tab){
-  std::vector<int> initial_indices;
-  for (int i = 0; i < tab.l_extendedprice.size(); i++) {
-    initial_indices.push_back(i);
-  }
   ResultTable resultTable;
-  std::vector<int> indices1 = op_shipdate_se(tab, initial_indices);
+  std::vector<int> indices1 = op_shipdate_se(tab);
   std::vector<int> indices2 = op_sort_returnflag_linestatus(tab, indices1);
   std::vector<int> groups = op_group_returnflag_linestatus(tab, indices2, resultTable);
   resultTable.sum_qty = op_sum_qty(tab, indices2, groups);
@@ -154,10 +150,9 @@ std::vector<int> QueryOne::op_sort_returnflag_linestatus(const table& tab, std::
     return old_inds;
 }
 
-
-std::vector<int> QueryOne::op_shipdate_se(const table& tab, std::vector<int> old_inds){
+std::vector<int> QueryOne::op_shipdate_se(const table& tab){
   std::vector<int> indices;
-  for (auto i : old_inds) {
+  for (int i = 0; i < tab.l_shipdate.size(); i++) {
     if (tab.l_shipdate[i] <= 904694400) {
       indices.push_back(i);
     }
