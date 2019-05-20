@@ -40,8 +40,8 @@ ResultTable QueryOne::execute_compiled(const table& tab) {
     int count = 1;
     long long int qty_sum = tab.l_quantity[indices[0]];
     long long int sum_base_price = tab.l_extendedprice[indices[0]];
-    long long int sum_disc_price = tab.l_extendedprice[indices[0]] * (100 - tab.l_discount[indices[0]]);
-    long long int sum_charge = tab.l_extendedprice[indices[0]] * (100 - tab.l_discount[indices[0]]) * (100 + tab.l_tax[indices[0]]);
+    long long int sum_disc_price = tab.l_extendedprice[indices[0]] * double(100 - tab.l_discount[indices[0]])/100.0;
+    long long int sum_charge = tab.l_extendedprice[indices[0]] * double(100 - tab.l_discount[indices[0]])/100 * double(100 + tab.l_tax[indices[0]])/100;
     long long int sum_disc = tab.l_discount[indices[0]];
     for (int i = 1; i < indices.size(); i++) {
         if ((tab.l_returnflag[indices[i]] != tab.l_returnflag[indices[i - 1]]) ||
@@ -62,8 +62,8 @@ ResultTable QueryOne::execute_compiled(const table& tab) {
             count = 1;
             qty_sum = tab.l_quantity[indices[i]];
             sum_base_price = tab.l_extendedprice[indices[i]];
-            sum_disc_price = tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]);
-            sum_charge = tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]) * (100 + tab.l_tax[indices[i]]);
+            sum_disc_price = tab.l_extendedprice[indices[i]] * double(100 - tab.l_discount[indices[i]])/100.0;
+            sum_charge = tab.l_extendedprice[indices[i]] * double(100 - tab.l_discount[indices[i]])/100.0 * double(100 + tab.l_tax[indices[i]])/100.0;
             sum_disc = tab.l_discount[indices[i]];
         }
         else 
@@ -72,8 +72,8 @@ ResultTable QueryOne::execute_compiled(const table& tab) {
             count++;
             qty_sum += tab.l_quantity[indices[i]];
             sum_base_price += tab.l_extendedprice[indices[i]];
-            sum_disc_price += tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]);
-            sum_charge += tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]) * (100 + tab.l_tax[indices[i]]);
+            sum_disc_price += tab.l_extendedprice[indices[i]] * double(100 - tab.l_discount[indices[i]])/100.0;
+            sum_charge += tab.l_extendedprice[indices[i]] * double(100 - tab.l_discount[indices[i]])/100.0 * double(100 + tab.l_tax[indices[i]])/100.0;
             sum_disc += tab.l_discount[indices[i]];
         }
     }
