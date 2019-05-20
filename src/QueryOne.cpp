@@ -30,7 +30,8 @@ std::vector<int> QueryOne::op_group_returnflag_linestatus(const table& tab, std:
   resultTable.l_linestatus.push_back(tab.l_linestatus[old_inds[0]]);
   resultTable.l_returnflag.push_back(tab.l_returnflag[old_inds[0]]);
   for (int i = 1; i < old_inds.size(); i++) {
-    if ((tab.l_returnflag[old_inds[i]] != tab.l_returnflag[old_inds[i-1]]) && (tab.l_linestatus[old_inds[i]] != tab.l_linestatus[old_inds[i-1]])) {
+    if ((tab.l_returnflag[old_inds[i]] != tab.l_returnflag[old_inds[i-1]]) || 
+        (tab.l_linestatus[old_inds[i]] != tab.l_linestatus[old_inds[i-1]])) {
       groups.push_back(i);
       resultTable.l_linestatus.push_back(tab.l_linestatus[old_inds[i]]);
       resultTable.l_returnflag.push_back(tab.l_returnflag[old_inds[i]]);
