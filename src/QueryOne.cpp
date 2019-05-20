@@ -145,23 +145,13 @@ std::vector<int> QueryOne::op_count_order(const table & tab, std::vector<int> ol
 }
 
 std::vector<int> QueryOne::op_sort_returnflag_linestatus(const table& tab, std::vector<int> old_inds){
-  std::vector<int> indices;
-  std::vector<std::tuple<char,char, int>> sub_table;
-  sub_table.reserve(old_inds.size());
-  for (auto i : old_inds) {
-    sub_table.push_back(std::make_tuple(tab.l_returnflag[i],tab.l_linestatus[i],i));
-  }
-  std::sort(sub_table.begin(), sub_table.end(), [](const auto& a, const auto& b) {
-    if (std::get<0>(a) == std::get<0>(b)) {
-      return std::get<1>(a) < std::get<1>(b);
-    }
-    return std::get<0>(a) < std::get<0>(b);
-  });
-  indices.reserve(sub_table.size());
-  for (auto a : sub_table) {
-    indices.push_back(std::get<2>(a));
-  }
-  return indices;
+    std::sort(old_inds.begin(), old_inds.end(), [tab](const auto a, const auto b) {
+        if (tab.l_returnflag[a] == tab.l_returnflag[b]) {
+            return tab.l_linestatus[a] < tab.l_linestatus[b];
+        }
+        return tab.l_returnflag[a] < tab.l_returnflag[b];
+    });
+    return old_inds;
 }
 
 
