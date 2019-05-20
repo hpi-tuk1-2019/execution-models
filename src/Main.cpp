@@ -43,10 +43,24 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
+	reading.write_to_file("benchmark_reading.csv");
 
-		auto q = QuerySix();
-		std::cout << q.execute(fileTable) << std::endl;
-		std::cout << q.execute_compiled(fileTable) << std::endl;
+	auto q = QuerySix();
+	StopWatch normal = StopWatch("normal execution");
+	for(int i=0;i<100;i++) {
+		normal.tik();
+		q.execute(fileTable);
+		normal.tok();
+	}
+	normal.write_to_file("benchmark_normal.csv");
+
+	StopWatch compiled = StopWatch("compiled execution");
+	for (int i = 0; i < 100; i++) {
+		compiled.tik();
+		q.execute_compiled(fileTable);
+		compiled.tok();
+	}
+	compiled.write_to_file("benchmark_compiled.csv");
 
     return 0;
 }

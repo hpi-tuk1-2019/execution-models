@@ -30,6 +30,6 @@ void StopWatch::write_to_file(std::string filename) {
     }
 
     for (auto& m : measurements) {
-        file << name + "," + std::to_string(m) + "\n";
+        file << std::to_string(m) + "\n";
     }
 }
