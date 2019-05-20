@@ -21,11 +21,12 @@ double QuerySix::execute(const table& tab){
   for (int i = 0; i < tab.l_extendedprice.size(); i++) {
     initial_indices.push_back(i);
   }
+
   std::vector<int> indices1 = op_discount_ge(tab, initial_indices);
   std::vector<int> indices2 = op_discount_se(tab, indices1);
-  std::vector<int> indices3 = op_quantity_s(tab, indices2);
-  std::vector<int> indices4 = op_shipdate_s(tab, indices3);
-  std::vector<int> indices5 = op_shipdate_ge(tab, indices4);
+  std::vector<int> indices3 = op_shipdate_s(tab, indices2);
+  std::vector<int> indices4 = op_shipdate_ge(tab, indices3);
+  std::vector<int> indices5 = op_quantity_s(tab, indices4);
   return op_agg_sum(tab, indices5);
 }
 
