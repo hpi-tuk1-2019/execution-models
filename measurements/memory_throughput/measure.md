@@ -32,13 +32,16 @@ Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm
 Max Memory Bandwidth:  [34.1 GB/s](
 https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html)
 
-Runtime of op_discount_between (touching 6005 ints with two comparisons)
+Runtime of touch_all_values (touching 6005 ints)
 Measured with `( make && cd src && ./Main ) >> measure`
-Values: 825389 748852 749409 749426 796734 750248 750296 799142 835655 749080
-Median: 750272 [ns]
 
-6005 bytes
-0.75 ms
+Values: 149752 149791 156326 149821 151296 149904 149784 149854 180904 149572 149788 149811
+Median: 149816 [ns]
 
-=> 64.03 Mb/s effective Memory Bandwidth (including  comparisons)
-=> effective usage: 0.0247 % of available bandwidth
+1 int => 4 byte
+
+6005 * 4 byte / 149816 ns = 0.1603 GB/s
+
+0.1603 GB/s / 34.1 GB/s = 
+
+=> effective usage: 0.47 % of available bandwidth is used

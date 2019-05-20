@@ -35,7 +35,20 @@ void print_sample(table table_obj, int sample_size = 20) {
     }
 }
 
+int touch_all_values(const table& tab){
+  int a = 0;
+  for (int i = 0; i < tab.l_discount.size(); i++) {
+    if ((tab.l_discount[i]) <= 7) {
+      a++;
+    }
+  }
+  return a;
+}
+
+
 int main(int argc, char *argv[]) {
+    // use to check size of an int on your machine
+    // std::cout << sizeof(int) << std::endl;
     std::string filename = "../../assets/sample_data/lineitem.tbl";
     char delim = '|';
 
@@ -44,8 +57,15 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
 
-		auto q = QuerySix();
-		std::cout << q.execute(fileTable) << std::endl;
+    StopWatch mem_bandwidth = StopWatch("Touch all values (memory bandwidth measurement)");
+    mem_bandwidth.tik();
+    touch_all_values(fileTable);
+    mem_bandwidth.tok();
+
+    mem_bandwidth.print_stats();
+
+	auto q = QuerySix();
+	std::cout << q.execute(fileTable) << std::endl;
 
     return 0;
 }
