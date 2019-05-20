@@ -47,21 +47,38 @@ int main(int argc, char *argv[]) {
 	reading.write_to_file("benchmark_reading.csv");
 
 	auto q = QuerySix();
-	StopWatch normal = StopWatch("normal execution");
+	StopWatch normal6 = StopWatch("normal execution query 6");
 	for(int i=0;i<100;i++) {
-		normal.tik();
+		normal6.tik();
 		q.execute(fileTable);
-		normal.tok();
+		normal6.tok();
 	}
-	normal.write_to_file("benchmark_normal.csv");
+	normal6.write_to_file("benchmark_normal.csv");
 
-	StopWatch compiled = StopWatch("compiled execution");
+	StopWatch compiled6 = StopWatch("compiled execution query 6");
 	for (int i = 0; i < 100; i++) {
-		compiled.tik();
+		compiled6.tik();
 		q.execute_compiled(fileTable);
-		compiled.tok();
+		compiled6.tok();
 	}
-	compiled.write_to_file("benchmark_compiled.csv");
+	compiled6.write_to_file("benchmark_compiled_6.csv");
+
+	auto q1 = QueryOne();
+	StopWatch normal1 = StopWatch("normal execution query 1");
+	for (int i = 0; i < 100; i++) {
+		normal1.tik();
+		q1.execute(fileTable);
+		normal1.tok();
+	}
+	normal1.write_to_file("benchmark_normal_1.csv");
+
+	StopWatch compiled1 = StopWatch("compiled execution query 1");
+	for (int i = 0; i < 100; i++) {
+		compiled1.tik();
+		q.execute_compiled(fileTable);
+		compiled1.tok();
+	}
+	compiled1.write_to_file("benchmark_compiled_1.csv");
 
     return 0;
 }
