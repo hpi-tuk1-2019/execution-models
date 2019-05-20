@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
 
 		auto q = QuerySix();
 		std::cout << q.execute(fileTable) << std::endl;
+		std::cout << q.execute_compiled(fileTable) << std::endl;
 
     return 0;
 }
