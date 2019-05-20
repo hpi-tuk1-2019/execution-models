@@ -1,6 +1,7 @@
 #pragma once
 #include "StopWatch.h"
 #include "QuerySix.h"
+#include "QueryOne.h"
 #include <string>
 #include <iostream>
 #include <chrono>
