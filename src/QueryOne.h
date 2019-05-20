@@ -28,4 +28,5 @@ class QueryOne {
     std::vector<int> op_count_order(const table& tab, std::vector<int> old_inds, std::vector<int> groups);
   public:
     ResultTable execute(const table& tab);
+    ResultTable execute_compiled(const table& tab);
 };

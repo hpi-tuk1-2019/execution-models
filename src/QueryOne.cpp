@@ -20,6 +20,75 @@ ResultTable QueryOne::execute(const table& tab){
   return resultTable;
 }
 
+ResultTable QueryOne::execute_compiled(const table& tab) {
+    std::vector<int> indices;
+    for (int i = 0; i < tab.l_shipdate.size(); i++) {
+        if (tab.l_shipdate[i] <= 904694400) {
+            indices.push_back(i);
+        }
+    }
+    std::sort(indices.begin(), indices.end(), [tab](const auto a, const auto b) {
+        if (tab.l_returnflag[a] == tab.l_returnflag[b]) {
+            return tab.l_linestatus[a] < tab.l_linestatus[b];
+        }
+        return tab.l_returnflag[a] < tab.l_returnflag[b];
+    });
+    ResultTable resultTable;
+    resultTable.l_linestatus.push_back(tab.l_linestatus[indices[0]]);
+    resultTable.l_returnflag.push_back(tab.l_returnflag[indices[0]]);
+    // start aggregation for first group
+    int count = 1;
+    long long int qty_sum = tab.l_quantity[indices[0]];
+    long long int sum_base_price = tab.l_extendedprice[indices[0]];
+    long long int sum_disc_price = tab.l_extendedprice[indices[0]] * (100 - tab.l_discount[indices[0]]);
+    long long int sum_charge = tab.l_extendedprice[indices[0]] * (100 - tab.l_discount[indices[0]]) * (100 + tab.l_tax[indices[0]]);
+    long long int sum_disc = tab.l_discount[indices[0]];
+    for (int i = 1; i < indices.size(); i++) {
+        if ((tab.l_returnflag[indices[i]] != tab.l_returnflag[indices[i - 1]]) ||
+            (tab.l_linestatus[indices[i]] != tab.l_linestatus[indices[i - 1]])) {
+            // new group
+            resultTable.l_linestatus.push_back(tab.l_linestatus[indices[i]]);
+            resultTable.l_returnflag.push_back(tab.l_returnflag[indices[i]]);
+            // values for the old group
+            resultTable.sum_qty.push_back(qty_sum);
+            resultTable.sum_base_price.push_back(sum_base_price);
+            resultTable.sum_disc_price.push_back(sum_disc_price);
+            resultTable.sum_charge.push_back(sum_charge);
+            resultTable.avg_qty.push_back(double(qty_sum) / count);
+            resultTable.avg_price.push_back(double(sum_base_price)/count);
+            resultTable.avg_disc.push_back(double(sum_disc)/count);
+            resultTable.count_order.push_back(count);
+            // start aggregations for new group
+            count = 1;
+            qty_sum = tab.l_quantity[indices[i]];
+            sum_base_price = tab.l_extendedprice[indices[i]];
+            sum_disc_price = tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]);
+            sum_charge = tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]) * (100 + tab.l_tax[indices[i]]);
+            sum_disc = tab.l_discount[indices[i]];
+        }
+        else 
+        {
+            // aggregate group values
+            count++;
+            qty_sum += tab.l_quantity[indices[i]];
+            sum_base_price += tab.l_extendedprice[indices[i]];
+            sum_disc_price += tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]);
+            sum_charge += tab.l_extendedprice[indices[i]] * (100 - tab.l_discount[indices[i]]) * (100 + tab.l_tax[indices[i]]);
+            sum_disc += tab.l_discount[indices[i]];
+        }
+    }
+    // values for the last group
+    resultTable.sum_qty.push_back(qty_sum);
+    resultTable.sum_base_price.push_back(sum_base_price);
+    resultTable.sum_disc_price.push_back(sum_disc_price);
+    resultTable.sum_charge.push_back(sum_charge);
+    resultTable.avg_qty.push_back(double(qty_sum) / count);
+    resultTable.avg_price.push_back(double(sum_base_price) / count);
+    resultTable.avg_disc.push_back(double(sum_disc) / count);
+    resultTable.count_order.push_back(count);
+    return resultTable;
+}
+
 std::vector<int> QueryOne::op_group_returnflag_linestatus(const table& tab, std::vector<int> old_inds, ResultTable& resultTable) {
   std::vector<int> groups;
   groups.push_back(0);
