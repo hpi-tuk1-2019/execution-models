@@ -45,12 +45,9 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
 
-	auto q = QuerySix();
-	std::cout << q.execute(fileTable) << std::endl;
-
-    auto q1 = QueryOne();
-    q1.execute(fileTable);
-    std::cout << "just executed query 1";
+		auto q = QuerySix();
+		std::cout << q.execute(fileTable) << std::endl;
+		std::cout << q.execute_compiled(fileTable) << std::endl;
 
     return 0;
 }
