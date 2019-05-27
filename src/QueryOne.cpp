@@ -8,7 +8,6 @@ ResultMap QueryOne::execute(const table& tab){
     auto filteredIndices = op_shipdate_se(tab);
     auto groups = op_group_returnflag_linestatus(tab, filteredIndices);
     groups = op_sum_qty(tab, filteredIndices, groups);
-    groups = op_sum_qty(tab, filteredIndices, groups);
     groups = op_sum_base_price(tab, filteredIndices, groups);
     groups = op_sum_disk_price(tab, filteredIndices, groups);
     groups = op_sum_charge(tab, filteredIndices, groups);
@@ -60,7 +59,7 @@ std::vector<int> QueryOne::op_shipdate_se(const table& tab) {
 }
 
 
-ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, std::vector<int> old_inds) {
+ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::vector<int> old_inds) {
     ResultMap result;  
     for (auto i: old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -71,7 +70,7 @@ ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, std::vector
     return result;
 }
 
-ResultMap QueryOne::op_sum_qty(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_sum_qty(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i: old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -81,7 +80,7 @@ ResultMap QueryOne::op_sum_qty(const table & tab, std::vector<int> old_inds, Res
     return groups;
 }
 
-ResultMap QueryOne::op_sum_base_price(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_sum_base_price(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i: old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -91,7 +90,7 @@ ResultMap QueryOne::op_sum_base_price(const table & tab, std::vector<int> old_in
     return groups;
 }
 
-ResultMap QueryOne::op_sum_disk_price(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_sum_disk_price(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i : old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -101,7 +100,7 @@ ResultMap QueryOne::op_sum_disk_price(const table & tab, std::vector<int> old_in
     return groups;
 }
 
-ResultMap QueryOne::op_sum_charge(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_sum_charge(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i : old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -111,7 +110,7 @@ ResultMap QueryOne::op_sum_charge(const table & tab, std::vector<int> old_inds, 
     return groups;
 }
 
-ResultMap QueryOne::op_avg_qty(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_avg_qty(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     // needs to be the first avg function called because of count
     for (auto i : old_inds) {
@@ -126,7 +125,7 @@ ResultMap QueryOne::op_avg_qty(const table & tab, std::vector<int> old_inds, Res
     return groups;
 }
 
-ResultMap QueryOne::op_avg_price(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_avg_price(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i : old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -139,7 +138,7 @@ ResultMap QueryOne::op_avg_price(const table & tab, std::vector<int> old_inds, R
     return groups;
 }
 
-ResultMap QueryOne::op_avg_disc(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_avg_disc(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto i : old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
@@ -152,7 +151,7 @@ ResultMap QueryOne::op_avg_disc(const table & tab, std::vector<int> old_inds, Re
     return groups;
 }
 
-ResultMap QueryOne::op_count_order(const table & tab, std::vector<int> old_inds, ResultMap groups)
+ResultMap QueryOne::op_count_order(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
     for (auto& group : groups) {
         group.second.count_order = 0;
@@ -166,7 +165,7 @@ ResultMap QueryOne::op_count_order(const table & tab, std::vector<int> old_inds,
     return groups;
 }
 /*
-std::vector<int> QueryOne::op_sort_returnflag_linestatus(const table& tab, std::vector<int> old_inds){
+std::vector<int> QueryOne::op_sort_returnflag_linestatus(const table& tab, const std::vector<int> old_inds){
     std::sort(old_inds.begin(), old_inds.end(), [tab](const auto a, const auto b) {
         if (tab.l_returnflag[a] == tab.l_returnflag[b]) {
             return tab.l_linestatus[a] < tab.l_linestatus[b];

@@ -45,8 +45,24 @@ int main(int argc, char *argv[]) {
     reading.tok();
 
     auto q1 = QueryOne();
+    StopWatch queryOne = StopWatch("queryOne");
+    queryOne.tik();
     auto result1 = q1.execute(fileTable);
-    auto result2 = q1.execute_compiled(fileTable);
+    queryOne.tok();
+    queryOne.print_stats();
 
+    StopWatch queryOneCompiled = StopWatch("queryOne compiled");
+    queryOneCompiled.tik();
+    auto result2 = q1.execute_compiled(fileTable);
+    queryOneCompiled.tok();
+    queryOneCompiled.print_stats();
+    for (auto& row : result1) {
+        std::cout << row.second.sum_qty;
+    }
+    for (auto& row : result2) {
+        std::cout << row.second.sum_qty;
+    }
+    int a;
+    std::cin >> a;
     return 0;
 }
