@@ -20,14 +20,14 @@ class QueryOne {
     std::vector<int> op_shipdate_se(const table& tab);
     //std::vector<int> op_sort_returnflag_linestatus(const table& tab, const std::vector<int> old_inds);
     ResultMap op_group_returnflag_linestatus(const table& tab, const std::vector<int> old_inds);
-    ResultMap op_sum_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_sum_base_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_sum_disk_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_sum_charge(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_avg_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_avg_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_avg_disc(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    ResultMap op_count_order(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_sum_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_sum_base_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_sum_disk_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_sum_charge(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_avg_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_avg_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_avg_disc(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    void op_count_order(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
   public:
     ResultMap execute(const table& tab);
     ResultMap execute_compiled(const table& tab);
