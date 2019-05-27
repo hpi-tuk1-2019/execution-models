@@ -11,10 +11,10 @@ ResultMap QueryOne::execute(const table& tab){
     groups = op_sum_base_price(tab, filteredIndices, groups);
     groups = op_sum_disk_price(tab, filteredIndices, groups);
     groups = op_sum_charge(tab, filteredIndices, groups);
+    groups = op_count_order(tab, filteredIndices, groups);
     groups = op_avg_qty(tab, filteredIndices, groups);
     groups = op_avg_price(tab, filteredIndices, groups);
     groups = op_avg_disc(tab, filteredIndices, groups);
-    groups = op_count_order(tab, filteredIndices, groups);
   
     return groups;
 }
@@ -41,9 +41,9 @@ ResultMap QueryOne::execute_compiled(const table & tab)
     // calculate averages
     for (auto& resultRow : result) {
         auto& rr = resultRow.second;
-        rr.avg_qty = (double(rr.sum_qty) / rr.count_order);
-        rr.avg_price = (double(rr.sum_base_price) / rr.count_order);
-        rr.avg_disc = (double(rr.sum_disc_price) / rr.count_order);
+        rr.avg_qty = double(rr.sum_qty) / double(rr.count_order);
+        rr.avg_price = double(rr.sum_base_price) / double(rr.count_order);
+        rr.avg_disc /= double(rr.count_order);
     }
     return result;
 }
@@ -112,28 +112,16 @@ ResultMap QueryOne::op_sum_charge(const table & tab, const std::vector<int> old_
 
 ResultMap QueryOne::op_avg_qty(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
-    // needs to be the first avg function called because of count
-    for (auto i : old_inds) {
-        auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
-        auto& group = groups.at(key);
-        group.avg_qty += tab.l_quantity[i];
-        group.count_order++;
-    }
     for (auto& group : groups) {
-        group.second.avg_qty /= double(group.second.count_order);
+        group.second.avg_qty = double(group.second.sum_qty)/double(group.second.count_order);
     }
     return groups;
 }
 
 ResultMap QueryOne::op_avg_price(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
-    for (auto i : old_inds) {
-        auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
-        auto& group = groups.at(key);
-        group.avg_price += tab.l_extendedprice[i];
-    }
     for (auto& group : groups) {
-        group.second.avg_price /= double(group.second.count_order);
+        group.second.avg_price = double(group.second.sum_base_price)/double(group.second.count_order);
     }
     return groups;
 }
@@ -153,9 +141,6 @@ ResultMap QueryOne::op_avg_disc(const table & tab, const std::vector<int> old_in
 
 ResultMap QueryOne::op_count_order(const table & tab, const std::vector<int> old_inds, ResultMap& groups)
 {
-    for (auto& group : groups) {
-        group.second.count_order = 0;
-    }
     for (auto i : old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
