@@ -11,4 +11,5 @@ class QuerySix {
   public:
     double execute(const table& tab);
     double execute_compiled(const table& tab);
+    double execute_hybrid(const table& tab);
 };
