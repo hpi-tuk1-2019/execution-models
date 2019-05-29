@@ -56,12 +56,25 @@ int main(int argc, char *argv[]) {
     auto result2 = q1.execute_compiled(fileTable);
     queryOneCompiled.tok();
     queryOneCompiled.print_stats();
+
+    StopWatch queryOneHybrid = StopWatch("queryOne hybrid");
+    queryOneHybrid.tik();
+    auto result3 = q1.execute_hybrid(fileTable);
+    queryOneHybrid.tok();
+    queryOneHybrid.print_stats();
+
     for (auto& row : result1) {
         std::cout << row.second.sum_qty;
     }
+    std::cout << std::endl;
     for (auto& row : result2) {
         std::cout << row.second.sum_qty;
     }
+    std::cout << std::endl;
+    for (auto& row : result3) {
+        std::cout << row.second.sum_qty;
+    }
+
     int a;
     std::cin >> a;
     return 0;

@@ -17,18 +17,19 @@ typedef std::map<std::pair<char, char>, ResultRow> ResultMap;
 
 class QueryOne {
   private:
-    std::vector<int> op_shipdate_se(const table& tab);
-    //std::vector<int> op_sort_returnflag_linestatus(const table& tab, const std::vector<int> old_inds);
-    ResultMap op_group_returnflag_linestatus(const table& tab, const std::vector<int> old_inds);
-    void op_sum_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_sum_base_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_sum_disk_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_sum_charge(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_avg_qty(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_avg_price(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_avg_disc(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
-    void op_count_order(const table& tab, const std::vector<int> old_inds, ResultMap& groups);
+    std::vector<bool> op_shipdate_se(const table& tab);
+    //std::vector<int> op_sort_returnflag_linestatus(const table& tab, const std::vector<bool> bitmap);
+    ResultMap op_group_returnflag_linestatus(const table& tab, const std::vector<bool>& bitmap);
+    void op_sum_qty(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    void op_sum_base_price(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    void op_sum_disk_price(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    void op_sum_charge(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    void op_avg_qty(const table& tab, ResultMap& groups);
+    void op_avg_price(const table& tab, ResultMap& groups);
+    void op_avg_disc(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    void op_count_order(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
   public:
     ResultMap execute(const table& tab);
     ResultMap execute_compiled(const table& tab);
+    ResultMap execute_hybrid(const table& tab);
 };
