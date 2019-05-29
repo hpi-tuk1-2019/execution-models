@@ -27,9 +27,8 @@ ResultMap QueryOne::execute_compiled(const table & tab)
             continue;
         }
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
-        if (result.count(key) == 0) {
-            result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
-        }
+        result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
+        
         auto& resultRow = result.at(key);
         resultRow.count_order++;
         resultRow.sum_qty += tab.l_quantity[i];
@@ -63,9 +62,7 @@ ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::
     ResultMap result;  
     for (auto i: old_inds) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
-        if (result.count(key) == 0) {
-            result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
-        }
+        result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
     }
     return result;
 }

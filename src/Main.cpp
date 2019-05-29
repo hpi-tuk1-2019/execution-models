@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
     for (auto& row : result1) {
         std::cout << row.second.sum_qty;
     }
+    std::cout << std::endl;
     for (auto& row : result2) {
         std::cout << row.second.sum_qty;
     }
