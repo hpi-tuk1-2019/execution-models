@@ -23,7 +23,7 @@ ResultMap QueryOne::execute_hybrid(const table & tab)
 {
     auto bitmap = op_shipdate_se(tab);
     ResultMap result;
-    for (int i = 1; i < tab.l_shipdate.size(); i++) {
+    for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
         auto& resultRow = result.at(key);
@@ -48,7 +48,7 @@ ResultMap QueryOne::execute_hybrid(const table & tab)
 ResultMap QueryOne::execute_compiled(const table & tab)
 {
     ResultMap result;
-    for (int i = 1; i < tab.l_shipdate.size(); i++) {
+    for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
         auto& resultRow = result.at(key);
