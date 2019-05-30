@@ -64,15 +64,15 @@ int main(int argc, char *argv[]) {
     queryOneHybrid.print_stats();
 
     for (auto& row : result1) {
-        std::cout << row.second.sum_qty;
+        std::cout << row.second.count_order << " ";
     }
     std::cout << std::endl;
     for (auto& row : result2) {
-        std::cout << row.second.sum_qty;
+        std::cout << row.second.count_order << " ";
     }
     std::cout << std::endl;
     for (auto& row : result3) {
-        std::cout << row.second.sum_qty;
+        std::cout << row.second.count_order << " ";
     }
 
     int a;
