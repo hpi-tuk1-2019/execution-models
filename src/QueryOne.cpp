@@ -22,7 +22,7 @@ ResultMap QueryOne::execute(const table& tab){
 ResultMap QueryOne::execute_compiled(const table & tab)
 {
     ResultMap result;
-    for (int i = 1; i < tab.l_shipdate.size(); i++) {
+    for (int i = 0; i < tab.l_shipdate.size(); i++) {
         if (tab.l_shipdate[i] > 904694400) {
             continue;
         }
