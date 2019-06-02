@@ -32,16 +32,23 @@ Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm
 Max Memory Bandwidth:  [34.1 GB/s](
 https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html)
 
-Runtime of touch_all_values (touching 6005 ints)
-Measured with `( make && cd src && ./Main ) >> measure`
+Runtime of touch_all_values (touching 6005 tuples)
 
-Values: 149752 149791 156326 149821 151296 149904 149784 149854 180904 149572 149788 149811
-Median: 149816 [ns]
 
-1 int => 4 byte
+Running Query 6 on s=0.001 gives
+Median: 373205 [ns]
 
-6005 * 4 byte / 149816 ns = 0.1603 GB/s
+Query 6 uses values
+l_extendedprice
+l_discount
+l_quantity
+l_shipdate
+l_shipdate
 
-0.1603 GB/s / 34.1 GB/s = 
+4 x Decimal + 2 x Date = 6 * 4 byte = 24 byte 
 
-=> effective usage: 0.47 % of available bandwidth is used
+6005 * 24 byte / 373205 ns = 0.3862 GB/s
+
+0.3862 GB/s / 34.1 GB/s = 1.1 %
+
+=> effective usage: 1.1 % of available bandwidth is used
