@@ -11,5 +11,13 @@ cmake ..
 make -j 8
 ```
 
+# How to compile with vectorization enabled
+
+```
+cd <project_root>
+cmake -D CMAKE_CXX_FLAGS="-ftree-vectorize" -B build
+```
+
+
 # How to save profiling values
 Create folder data for profiling files

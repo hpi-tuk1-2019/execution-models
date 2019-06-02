@@ -1,5 +1,7 @@
 file (GLOB_RECURSE SRCS . *.cpp)
 
+add_definitions("-fopt-info-vec -O2")
+
 add_library(${PROJECT_NAME}
     ${SRCS}
 )
