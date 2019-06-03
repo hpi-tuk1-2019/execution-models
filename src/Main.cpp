@@ -36,7 +36,7 @@ void print_sample(table table_obj, int sample_size = 20) {
     }
 }
 
-int touch_all_values(std::vector<uint16_t> vec){
+int touch_all_values(std::vector<uint16_t>& vec){
   int a = 0;
 	int size = vec.size();
   for (int i = 0; i < size; i++) {
@@ -47,7 +47,7 @@ int touch_all_values(std::vector<uint16_t> vec){
   return a;
 }
 
-int measure_bandwidth(int measurement_count, long int obs_size) {
+void measure_bandwidth(int measurement_count, long int obs_size) {
 	std::vector<uint16_t> vec;
 	StopWatch measure = StopWatch("bandwith_measurement");
 	uint16_t k = 5;
@@ -76,18 +76,14 @@ int main(int argc, char *argv[]) {
 
     StopWatch reading = StopWatch("reading csv");
     reading.tik();
-    auto fileTable = readFile(filename, delim);
+    //auto fileTable = readFile(filename, delim);
     reading.tok();
 		measure_bandwidth(10, 250000000);
-    // StopWatch mem_bandwidth = StopWatch("Touch all values (memory bandwidth measurement)");
-    // mem_bandwidth.tik();
-    // touch_all_values(fileTable);
-    // mem_bandwidth.tok();
-
-    //mem_bandwidth.print_stats();
 
 	auto q = QuerySix();
-	std::cout << q.execute(fileTable) << std::endl;
+	//std::cout << q.execute(fileTable) << std::endl;
 
+    int a = 0;
+    std::cin >> a;
     return 0;
 }
