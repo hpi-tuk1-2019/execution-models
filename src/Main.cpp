@@ -59,13 +59,17 @@ int main(int argc, char *argv[]) {
 
     StopWatch mem_bandwidth = StopWatch("Touch all values (memory bandwidth measurement)");
     mem_bandwidth.tik();
-    touch_all_values(fileTable);
+    int a = touch_all_values(fileTable);
     mem_bandwidth.tok();
+    std::cout << a;
 
     mem_bandwidth.print_stats();
 
 	auto q = QuerySix();
 	std::cout << q.execute(fileTable) << std::endl;
+
+    int b = 0;
+    std::cin >> b;
 
     return 0;
 }
