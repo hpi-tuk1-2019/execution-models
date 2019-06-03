@@ -159,15 +159,3 @@ void QueryOne::op_count_order(const table & tab, const std::vector<bool>& bitmap
         group.count_order += bitmap[i];
     }
 }
-/*
-std::vector<int> QueryOne::op_sort_returnflag_linestatus(const table& tab, const std::vector<int> old_inds){
-    std::sort(old_inds.begin(), old_inds.end(), [tab](const auto a, const auto b) {
-        if (tab.l_returnflag[a] == tab.l_returnflag[b]) {
-            return tab.l_linestatus[a] < tab.l_linestatus[b];
-        }
-        return tab.l_returnflag[a] < tab.l_returnflag[b];
-    });
-    return old_inds;
-}
-*/
-
