@@ -31,6 +31,7 @@ Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm
 
 Max Memory Bandwidth:  [34.1 GB/s](
 https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html)
+34.1 GB/s / 4 (per kernel) = 8.525 GB/s
 
 # Random Vector
 250 *10⁶ * 2 byte = 500 MB
@@ -39,9 +40,7 @@ https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-p
 
 # TCPH Full Table Scan (touch_all_values)
 600000 * 4 byte /  460000ns  = 5.217 GB/s
-5.217 GB/s / 34.1 GB/s = 15 %
 
-34.1 GB/s / 4 (per kernel) = 8.525 GB/s
 5.217 GB/s / 8.525 GB/s = 61.2 %
 
 => effective usage: 61.2 % of available bandwidth is used
