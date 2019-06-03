@@ -1,6 +1,12 @@
 file (GLOB_RECURSE SRCS . *.cpp)
 
-add_definitions("-fopt-info-vec -O2 /Qvec-report:2")
+if (WIN32)
+    add_definitions("-fopt-info-vec /Qvec-report:2")
+endif (WIN32)
+
+if (UNIX)
+    add_definitions("-fopt-info-vec -O2")
+endif (UNIX)
 
 add_library(${PROJECT_NAME}
     ${SRCS}
