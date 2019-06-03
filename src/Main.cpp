@@ -43,26 +43,34 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
+    reading.print_stats();
 
-    auto q1 = QueryOne();
-    StopWatch queryOne = StopWatch("queryOne");
-    queryOne.tik();
-    auto result1 = q1.execute(fileTable);
-    queryOne.tok();
-    queryOne.print_stats();
+    QueryOne q1;
+    StopWatch q1sw = StopWatch("query one normal");
+    q1sw.tik();
+    q1.execute(fileTable);
+    q1sw.tok();
+    q1sw.print_stats();
 
-    StopWatch queryOneCompiled = StopWatch("queryOne compiled");
-    queryOneCompiled.tik();
-    auto result2 = q1.execute_compiled(fileTable);
-    queryOneCompiled.tok();
-    queryOneCompiled.print_stats();
-    for (auto& row : result1) {
-        std::cout << row.second.sum_qty;
-    }
-    std::cout << std::endl;
-    for (auto& row : result2) {
-        std::cout << row.second.sum_qty;
-    }
+    StopWatch q1sw2 = StopWatch("query one executed");
+    q1sw2.tik();
+    q1.execute_compiled(fileTable);
+    q1sw2.tok();
+    q1sw2.print_stats();
+
+    QuerySix q6;
+    StopWatch q6sw = StopWatch("query six normal");
+    q6sw.tik();
+    q6.execute(fileTable);
+    q6sw.tok();
+    q6sw.print_stats();
+
+    StopWatch q6sw1 = StopWatch("query six executed");
+    q6sw1.tik();
+    q6.execute_compiled(fileTable);
+    q6sw1.tok();
+    q6sw1.print_stats();
+
     int a;
     std::cin >> a;
     return 0;
