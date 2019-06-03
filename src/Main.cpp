@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <chrono>
+#include <cstdlib>
 
 void print_char_array(std::array<char, 45> char_array) {
 	for (int i = 0; i < sizeof(char_array); i++) {
@@ -35,14 +36,35 @@ void print_sample(table table_obj, int sample_size = 20) {
     }
 }
 
-int touch_all_values(const table& tab){
+int touch_all_values(std::vector<uint16_t> vec){
   int a = 0;
-  for (int i = 0; i < tab.l_discount.size(); i++) {
-    if ((tab.l_discount[i]) <= 7) {
-      a++;
-    }
-  }
+	int size = vec.size();
+  for (int i = 0; i < size; i++) {
+		if (vec[i] <= 10) {
+					a += 1;
+		}
+	}
   return a;
+}
+
+int measure_bandwidth(int measurement_count, long int obs_size) {
+	std::vector<uint16_t> vec;
+	StopWatch measure = StopWatch("bandwith_measurement");
+	uint16_t k = 5;
+	//std::cout << k.size() << std::endl;
+	for (int i = 0; i < obs_size; i++) {
+		vec.push_back((uint16_t)(rand() % 100));
+	}
+	std::cout << vec.size() * 2 << std::endl;
+	for (int i = 0; i < measurement_count; i++) {
+		measure.tik();
+		int a = touch_all_values(vec);
+		measure.tok();
+		std::cout << a << std::endl;
+		//measure.print_stats();
+	}
+	measure.write_to_file("bandwith.csv");
+
 }
 
 
@@ -56,13 +78,13 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
+		measure_bandwidth(10, 250000000);
+    // StopWatch mem_bandwidth = StopWatch("Touch all values (memory bandwidth measurement)");
+    // mem_bandwidth.tik();
+    // touch_all_values(fileTable);
+    // mem_bandwidth.tok();
 
-    StopWatch mem_bandwidth = StopWatch("Touch all values (memory bandwidth measurement)");
-    mem_bandwidth.tik();
-    touch_all_values(fileTable);
-    mem_bandwidth.tok();
-
-    mem_bandwidth.print_stats();
+    //mem_bandwidth.print_stats();
 
 	auto q = QuerySix();
 	std::cout << q.execute(fileTable) << std::endl;
