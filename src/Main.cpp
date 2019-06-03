@@ -1,4 +1,3 @@
-#pragma once
 #include "StopWatch.h"
 #include "QuerySix.h"
 #include "QueryOne.h"
@@ -44,41 +43,35 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
-	reading.write_to_file("benchmark_reading.csv");
+    reading.print_stats();
 
-	auto q = QuerySix();
-	StopWatch normal6 = StopWatch("normal execution query 6");
-	for(int i=0;i<100;i++) {
-		normal6.tik();
-		q.execute(fileTable);
-		normal6.tok();
-	}
-	normal6.write_to_file("benchmark_normal.csv");
+    QueryOne q1;
+    StopWatch q1sw = StopWatch("query one normal");
+    q1sw.tik();
+    q1.execute(fileTable);
+    q1sw.tok();
+    q1sw.print_stats();
 
-	StopWatch compiled6 = StopWatch("compiled execution query 6");
-	for (int i = 0; i < 100; i++) {
-		compiled6.tik();
-		q.execute_compiled(fileTable);
-		compiled6.tok();
-	}
-	compiled6.write_to_file("benchmark_compiled_6.csv");
+    StopWatch q1sw2 = StopWatch("query one executed");
+    q1sw2.tik();
+    q1.execute_compiled(fileTable);
+    q1sw2.tok();
+    q1sw2.print_stats();
 
-	auto q1 = QueryOne();
-	StopWatch normal1 = StopWatch("normal execution query 1");
-	for (int i = 0; i < 100; i++) {
-		normal1.tik();
-		q1.execute(fileTable);
-		normal1.tok();
-	}
-	normal1.write_to_file("benchmark_normal_1.csv");
+    QuerySix q6;
+    StopWatch q6sw = StopWatch("query six normal");
+    q6sw.tik();
+    q6.execute(fileTable);
+    q6sw.tok();
+    q6sw.print_stats();
 
-	StopWatch compiled1 = StopWatch("compiled execution query 1");
-	for (int i = 0; i < 100; i++) {
-		compiled1.tik();
-		q.execute_compiled(fileTable);
-		compiled1.tok();
-	}
-	compiled1.write_to_file("benchmark_compiled_1.csv");
+    StopWatch q6sw1 = StopWatch("query six executed");
+    q6sw1.tik();
+    q6.execute_compiled(fileTable);
+    q6sw1.tok();
+    q6sw1.print_stats();
 
+    int a;
+    std::cin >> a;
     return 0;
 }
