@@ -65,6 +65,12 @@ int main(int argc, char *argv[]) {
     q6sw.tok();
     q6sw.print_stats();
 
+    StopWatch q6sw2 = StopWatch("query six hybrid");
+    q6sw2.tik();
+    q6.execute_hybrid(fileTable);
+    q6sw2.tok();
+    q6sw2.print_stats();
+
     StopWatch q6sw1 = StopWatch("query six executed");
     q6sw1.tik();
     q6.execute_compiled(fileTable);
