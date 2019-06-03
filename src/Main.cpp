@@ -1,4 +1,3 @@
-#pragma once
 #include "StopWatch.h"
 #include "QuerySix.h"
 #include "QueryOne.h"
@@ -44,10 +43,48 @@ int main(int argc, char *argv[]) {
     reading.tik();
     auto fileTable = readFile(filename, delim);
     reading.tok();
+    reading.print_stats();
 
-		auto q = QuerySix();
-		std::cout << q.execute(fileTable) << std::endl;
-		std::cout << q.execute_compiled(fileTable) << std::endl;
+    QueryOne q1;
+    StopWatch q1sw = StopWatch("query one normal");
+    q1sw.tik();
+    q1.execute(fileTable);
+    q1sw.tok();
+    q1sw.print_stats();
 
+    StopWatch q1sw1 = StopWatch("query one hyrbid");
+    q1sw1.tik();
+    q1.execute_hybrid(fileTable);
+    q1sw1.tok();
+    q1sw1.print_stats();
+
+    StopWatch q1sw2 = StopWatch("query one executed");
+    q1sw2.tik();
+    q1.execute_compiled(fileTable);
+    q1sw2.tok();
+    q1sw2.print_stats();
+
+    QuerySix q6;
+    StopWatch q6sw = StopWatch("query six normal");
+    q6sw.tik();
+    q6.execute(fileTable);
+    q6sw.tok();
+    q6sw.print_stats();
+
+    StopWatch q6sw2 = StopWatch("query six hybrid");
+    q6sw2.tik();
+    q6.execute_hybrid(fileTable);
+    q6sw2.tok();
+    q6sw2.print_stats();
+
+    StopWatch q6sw1 = StopWatch("query six executed");
+    q6sw1.tik();
+    q6.execute_compiled(fileTable);
+    q6sw1.tok();
+    q6sw1.print_stats();
+
+
+    int a;
+    std::cin >> a;
     return 0;
 }
