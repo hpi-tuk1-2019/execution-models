@@ -52,6 +52,12 @@ int main(int argc, char *argv[]) {
     q1sw.tok();
     q1sw.print_stats();
 
+    StopWatch q1sw1 = StopWatch("query one hyrbid");
+    q1sw1.tik();
+    q1.execute_hybrid(fileTable);
+    q1sw1.tok();
+    q1sw1.print_stats();
+
     StopWatch q1sw2 = StopWatch("query one executed");
     q1sw2.tik();
     q1.execute_compiled(fileTable);
@@ -76,6 +82,7 @@ int main(int argc, char *argv[]) {
     q6.execute_compiled(fileTable);
     q6sw1.tok();
     q6sw1.print_stats();
+
 
     int a;
     std::cin >> a;
