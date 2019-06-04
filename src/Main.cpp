@@ -61,7 +61,7 @@ void measure_bandwidth(int measurement_count, long int obs_size) {
     int a = touch_all_values(vec);
     measure.tok();
     std::cout << a << std::endl;
-        //measure.print_stats();
+    measure.print_stats();
   }
   measure.write_to_file("bandwith.csv");
 

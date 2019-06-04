@@ -35,7 +35,7 @@ https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-p
 
 # Random Vector
 250 *10⁶ * 2 byte = 500 MB
-500 MB / 0.17s = 2.94 GB/s
+500 MB / 53183490 ns = 2.94 GB/s
 2.94 GB/s / 8.525 GB/s = 34.5 %
 
 # TCPH Full Table Scan (touch_all_values)
