@@ -1,5 +1,4 @@
 file (GLOB_RECURSE SRCS . *.cpp)
-
 set(CMAKE_BUILD_TYPE Release)
 
 add_library(${PROJECT_NAME}

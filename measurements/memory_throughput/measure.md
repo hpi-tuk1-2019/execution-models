@@ -31,19 +31,33 @@ Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm
 
 Max Memory Bandwidth:  [34.1 GB/s](
 https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html)
-34.1 GB/s / 4 (per kernel) = 8.525 GB/s
 
-# Random Vector
-250 *10⁶ * 2 byte = 500 MB
-500 MB / 53183490 ns = 2.94 GB/s
-2.94 GB/s / 8.525 GB/s = 34.5 %
+(All branchless)
+(All values are implemented as `uint64_t`)
 
-# TCPH Full Table Scan (touch_all_values)
-600000 * 4 byte /  460000ns  = 5.217 GB/s
+# Random Vector Scan
+```
+Selectivity: 27491679 / 250 *10⁶ = 11%
 
-5.217 GB/s / 8.525 GB/s = 61.2 %
+250 *10⁶ * 8 byte / 188.5 ms = 10.61 GB/s
 
-=> effective usage: 61.2 % of available bandwidth is used
+10.61 GB/s / 34.1 GB/s = 31.11 %
+```
+=> effective memory bandwidth utilization is 31.11 %
+
+# TCPH Full Table Scan
+```
+Selectvity: 4851 / 5000000 =  0.10 %
+
+3717247 3672888 3691449 3697739 5336719 4965723 4768795 8904177 3651819 3623240
+
+Median: 3.707 ms
+
+5000000 * 8 byte /  3.707 ms  = 10.79 GB/s
+
+10.79 GB/s / 34.1 GB/s = 31.64 %
+```
+=> effective memory bandwidth utilization is 31.64 %
 
 # Query 6 compiled
 Query 6 uses values
@@ -52,9 +66,11 @@ l_discount
 l_quantity
 l_shipdate
 l_shipdate
+```
+4 * Decimal + 2 * Date = 6 * 8 byte = 48 byte 
 
-4 x Decimal + 2 x Date = 6 * 4 byte = 24 byte 
+5000000 * 48 byte /  61864257 ns = 3.879 GB/s
 
-600000 * 24 byte /  2s  = 0.72 GB/s
-
-0.72 GB/s / 8.525 GB/s = 8.45 %
+3.879 GB/s / 34.1 GB/s = 11.38%
+```
+=> effective memory bandwidth utilization is 11.38%

@@ -36,24 +36,22 @@ void print_sample(table table_obj, int sample_size = 20) {
   }
 }
 
-int touch_all_values(std::vector<auto>& vec){
+int touch_all_values(std::vector<uint64_t>& vec){
   int a = 0;
   int size = vec.size();
   for (int i = 0; i < size; i++) {
-    if (vec[i] <= 10) {
-      a += 1;
-    }
+     a += (vec[i] <= 10);
   }
   return a;
 }
 
 void measure_bandwidth(int measurement_count, long int obs_size) {
-  std::vector<uint16_t> vec;
+  std::vector<uint64_t> vec;
   StopWatch measure = StopWatch("Memory bandwidth measurement Random Vector");
-  uint16_t k = 5;
+  uint64_t k = 5;
     //std::cout << k.size() << std::endl;
   for (int i = 0; i < obs_size; i++) {
-    vec.push_back((uint16_t)(rand() % 100));
+    vec.push_back((uint64_t)(rand() % 100));
   }
   std::cout << vec.size() * 2 << std::endl;
   for (int i = 0; i < measurement_count; i++) {
@@ -64,7 +62,6 @@ void measure_bandwidth(int measurement_count, long int obs_size) {
     measure.print_stats();
   }
   measure.write_to_file("bandwith.csv");
-
 }
 
 
@@ -77,19 +74,22 @@ int main(int argc, char *argv[]) {
   auto fileTable = readFile(filename, delim);
   reading.tok();
 
-  StopWatch mem_bandwidth = StopWatch("Memory bandwidth measurement (TCP-H Full Table Scan)");
-  mem_bandwidth.tik();
-  int a = touch_all_values(fileTable.l_shipdate);
-  mem_bandwidth.tok();
-  std::cout << a;
 
-  mem_bandwidth.print_stats();
+  StopWatch mem_bandwidth = StopWatch("Memory bandwidth measurement (TCP-H Full Table Scan)");
+  for (int i = 0; i < 10; i++) {
+    mem_bandwidth.tik();
+    int a = touch_all_values(fileTable.l_suppkey);
+    mem_bandwidth.tok();
+    std::cout << a << std::endl;
+
+    mem_bandwidth.print_stats();
+  }
 
   measure_bandwidth(10, 250000000);
 
   StopWatch mem_bandwidth2 = StopWatch("Memory bandwidth measurement (Query 6 Compiled)");
   auto q = QuerySix();
-  mem_bandwidth.tik();
+  mem_bandwidth2.tik();
   int a2 = q.execute(fileTable);
   mem_bandwidth2.tok();
   std::cout << a2 << std::endl;
