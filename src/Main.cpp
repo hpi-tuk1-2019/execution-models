@@ -69,20 +69,17 @@ void measure_bandwidth(int measurement_count, long int obs_size) {
 
 
 int main(int argc, char *argv[]) {
-    // use to check size of an int on your machine
-    // std::cout << sizeof(int) << std::endl;
-  std::string filename = "../../assets/sample_data/lineitem.tbl";
+  std::string filename = "../../assets/sample_data2/lineitem.tbl";
   char delim = '|';
 
   StopWatch reading = StopWatch("reading csv");
   reading.tik();
-    //auto fileTable = readFile(filename, delim);
+  auto fileTable = readFile(filename, delim);
   reading.tok();
-  <<<<<<< HEAD
 
   StopWatch mem_bandwidth = StopWatch("Memory bandwidth measurement (TCP-H Full Table Scan)");
   mem_bandwidth.tik();
-  int a = touch_all_values(fileTable);
+  int a = touch_all_values(fileTable.l_shipdate);
   mem_bandwidth.tok();
   std::cout << a;
 

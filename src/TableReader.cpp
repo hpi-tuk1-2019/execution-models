@@ -7,17 +7,17 @@
 #include <sstream>
 
 
-int parseInt(std::ifstream& file, const char delim) {
+uint64_t parseInt(std::ifstream& file, const char delim) {
     std::string value;
     std::getline(file, value, delim);
-    return std::stoi(value);
+    return (uint64_t)std::stoi(value);
 }
 
-int parseDecimal(std::ifstream& file, const char delim){
+uint64_t parseDecimal(std::ifstream& file, const char delim){
     std::string value;
     std::getline(file, value, delim);
     double real_value = std::stod(value);
-    return (int)(real_value * 100);
+    return (uint64_t)(real_value * 100);
 }
 
 dbString parseString(std::ifstream& file, const char delim) {
@@ -37,13 +37,13 @@ char parseChar(std::ifstream& file, const char delim) {
     return value.front();
 }
 
-int parseDate(std::ifstream& file, const char delim) {
+uint64_t parseDate(std::ifstream& file, const char delim) {
   std::string value;
   std::tm t = {};
   std::getline(file, value, delim);
   std::istringstream ss(value);
   ss >> std::get_time(&t, "%Y-%m-%d");
-  int date = mktime(&t);
+  uint64_t date = mktime(&t);
   return date;
 }
 
@@ -59,7 +59,7 @@ table readFile(std::string filename, const char delim)
 
 
     // length of table and columntypes from lineitem.tbl
-    for(int i = 0; i < 6005; ++i)
+    for(int i = 0; i < 600000; ++i)
     {
         fileTable.l_orderkey.push_back(parseInt(file, delim));
         fileTable.l_partkey.push_back(parseInt(file, delim));
