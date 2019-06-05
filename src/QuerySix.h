@@ -3,7 +3,7 @@
 class QuerySix {
   private:
     void op_shipdate_ge(const table& tab, std::vector<bool>& bitmap);
-    double op_agg_sum(const table& tab, std::vector<bool>& bitmap);
+    double op_agg_sum(const table& tab, const std::vector<bool>& bitmap);
     void op_shipdate_s(const table& tab, std::vector<bool>& bitmap);
     void op_quantity_s(const table& tab, std::vector<bool>& bitmap);
     void op_discount_ge(const table& tab, std::vector<bool>& bitmap);
