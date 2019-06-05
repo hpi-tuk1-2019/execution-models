@@ -36,7 +36,7 @@ void print_sample(table table_obj, int sample_size = 20) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data/lineitem.tbl";
+    std::string filename = "../../assets/sample_data2/lineitem.tbl";
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
     q1sw1.tok();
     q1sw1.print_stats();
 
-    StopWatch q1sw2 = StopWatch("query one executed");
+    StopWatch q1sw2 = StopWatch("query one compiled");
     q1sw2.tik();
     q1.execute_compiled(fileTable);
     q1sw2.tok();
@@ -77,13 +77,30 @@ int main(int argc, char *argv[]) {
     q6sw2.tok();
     q6sw2.print_stats();
 
-    StopWatch q6sw1 = StopWatch("query six executed");
+    StopWatch q6sw1 = StopWatch("query six compiled");
     q6sw1.tik();
     q6.execute_compiled(fileTable);
     q6sw1.tok();
     q6sw1.print_stats();
 
+    for (int i = 0; i < 100; i++) {
+        q1sw.tik();
+        q1.execute(fileTable);
+        q1sw.tok();
 
+        q1sw1.tik();
+        q1.execute_hybrid(fileTable);
+        q1sw1.tok();
+
+        q1sw2.tik();
+        q1.execute_compiled(fileTable);
+        q1sw2.tok();
+    }
+    q1sw.write_to_file("../../data/q6HashedNormal.csv");
+    q1sw1.write_to_file("../../data/q6HashedHybrid.csv");
+    q1sw2.write_to_file("../../data/q6HashedCompiled.csv");
+
+    std::cout << "printed all files";
     int a;
     std::cin >> a;
     return 0;
