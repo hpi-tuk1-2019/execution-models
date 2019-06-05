@@ -1,6 +1,7 @@
 #pragma once
 #include "TableReader.h"
-#include <map>
+#include <unordered_map>
+#include <string>
 
 struct ResultRow {
     long long int sum_qty = 0;
@@ -13,7 +14,8 @@ struct ResultRow {
     int count_order = 0;
 };
 
-typedef std::map<std::pair<char, char>, ResultRow> ResultMap;
+typedef std::unordered_map<std::string, ResultRow> ResultMap;
+typedef std::vector<std::pair<std::string, ResultRow>> ResultTable;
 
 class QueryOne {
   private:
@@ -27,8 +29,10 @@ class QueryOne {
     void op_avg_price(const table& tab, ResultMap& groups);
     void op_avg_disc(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
     void op_count_order(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups);
+    ResultTable op_sort(const ResultMap& groups);
+
   public:
-    ResultMap execute(const table& tab);
-    ResultMap execute_compiled(const table& tab);
-    ResultMap execute_hybrid(const table& tab);
+    ResultTable execute(const table& tab);
+    ResultTable execute_compiled(const table& tab);
+    ResultTable execute_hybrid(const table& tab);
 };
