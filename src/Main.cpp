@@ -47,42 +47,59 @@ int main(int argc, char *argv[]) {
 
     QueryOne q1;
     StopWatch q1sw = StopWatch("query one normal");
-    q1sw.tik();
-    q1.execute(fileTable);
-    q1sw.tok();
-    q1sw.print_stats();
+	for (int i = 0; i < 1; i++) {
+		q1sw.tik();
+		q1.execute(fileTable);
+		q1sw.tok();
+	}
+	q1sw.print_stats();
+    q1sw.write_to_file("benchmark_normal_1.csv");
 
     StopWatch q1sw1 = StopWatch("query one hyrbid");
-    q1sw1.tik();
-    q1.execute_hybrid(fileTable);
-    q1sw1.tok();
-    q1sw1.print_stats();
+	for (int i = 0; i < 1; i++) {
+		q1sw1.tik();
+		q1.execute_hybrid(fileTable);
+		q1sw1.tok();
+	}
+	q1sw1.print_stats();
+    q1sw1.write_to_file("benchmark_hybrid_1.csv");
 
-    StopWatch q1sw2 = StopWatch("query one executed");
-    q1sw2.tik();
-    q1.execute_compiled(fileTable);
-    q1sw2.tok();
-    q1sw2.print_stats();
+    StopWatch q1sw2 = StopWatch("query one compiled");
+	for (int i = 0; i < 1; i++) {
+		q1sw2.tik();
+		q1.execute_compiled(fileTable);
+		q1sw2.tok();
+	}
+	q1sw2.print_stats();
+    q1sw2.write_to_file("benchmark_compiled_1.csv");
 
     QuerySix q6;
     StopWatch q6sw = StopWatch("query six normal");
-    q6sw.tik();
-    q6.execute(fileTable);
-    q6sw.tok();
-    q6sw.print_stats();
+	for (int i = 0; i < 100; i++) {
+		q6sw.tik();
+		q6.execute(fileTable);
+		q6sw.tok();
+	}
+	q6sw.print_stats();
+    q6sw.write_to_file("benchmark_normal_6.csv");
 
     StopWatch q6sw2 = StopWatch("query six hybrid");
-    q6sw2.tik();
-    q6.execute_hybrid(fileTable);
-    q6sw2.tok();
-    q6sw2.print_stats();
+	for (int i = 0; i < 1; i++) {
+		q6sw2.tik();
+		q6.execute_hybrid(fileTable);
+		q6sw2.tok();
+	}
+	q6sw2.print_stats();
+	q6sw2.write_to_file("benchmark_hybrid_6.csv");
 
-    StopWatch q6sw1 = StopWatch("query six executed");
-    q6sw1.tik();
-    q6.execute_compiled(fileTable);
-    q6sw1.tok();
-    q6sw1.print_stats();
-
+    StopWatch q6sw1 = StopWatch("query six compiled");
+	for (int i = 0; i < 1; i++) {
+		q6sw1.tik();
+		q6.execute_compiled(fileTable);
+		q6sw1.tok();
+	}
+	q6sw1.print_stats();
+	q6sw1.write_to_file("benchmark_compiled_6.csv");
 
     int a;
     std::cin >> a;
