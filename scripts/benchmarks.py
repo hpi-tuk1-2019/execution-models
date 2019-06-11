@@ -28,10 +28,17 @@ with open('../build/src/benchmark_hybrid_6.csv') as csvFile:
         array_hybrid.append(int(e[0]))
 avg_hybrid = sum(array_hybrid) / len(array_hybrid)
 
+with open('../build/src/benchmark_vectorized_6.csv') as csvFile:
+    readCSV = csv.reader(csvFile, delimiter=',')
+    array_vec = []
+    for e in readCSV:
+        array_vec.append(int(e[0]))
+avg_vec = sum(array_vec) / len(array_vec)
 
-objects = ('normal', 'compiled', 'hybrid')
+
+objects = ('normal', 'compiled', 'hybrid', 'vectorized')
 y_pos = np.arange(len(objects))
-performance = [avg_normal, avg_compiled, avg_hybrid]
+performance = [avg_normal, avg_compiled, avg_hybrid, avg_vec]
 
 plt.bar(y_pos, performance, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
@@ -40,8 +47,8 @@ plt.title("Performance Query 6")
 plt.savefig('performance_query_6.png')
 plt.clf()
 
-plt.boxplot([array_normal, array_compiled, array_hybrid])
-plt.xticks([1,2,3], ['normal', 'compiled', 'hybrid'])
+plt.boxplot([array_normal, array_compiled, array_hybrid, array_vec])
+plt.xticks([1,2,3,4], ['normal', 'compiled', 'hybrid', 'vectorized'])
 plt.ylabel('Runtime in ms')
 plt.title("Performance Query 6")
 plt.savefig('performance_query_6_boxplot.png')
@@ -70,9 +77,16 @@ with open('../build/src/benchmark_hybrid_1.csv') as csvFile:
         array_hybrid.append(int(e[0]))
 avg_hybrid = sum(array_hybrid) / len(array_hybrid)
 
-objects = ('normal', 'compiled', 'hybrid')
+with open('../build/src/benchmark_vectorized_1.csv') as csvFile:
+    readCSV = csv.reader(csvFile, delimiter=',')
+    array_vec = []
+    for e in readCSV:
+        array_vec.append(int(e[0]))
+avg_vec = sum(array_vec) / len(array_vec)
+
+objects = ('normal', 'compiled', 'hybrid', 'vectorized')
 y_pos = np.arange(len(objects))
-performance = [avg_normal, avg_compiled, avg_hybrid]
+performance = [avg_normal, avg_compiled, avg_hybrid, avg_vec]
 
 plt.bar(y_pos, performance, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
@@ -81,8 +95,8 @@ plt.title("Performance Query 1")
 plt.savefig("performance_query_1")
 plt.clf()
 
-plt.boxplot([array_normal, array_compiled, array_hybrid])
-plt.xticks([1,2,3], ['normal', 'compiled', 'hybrid'])
+plt.boxplot([array_normal, array_compiled, array_hybrid, array_vec])
+plt.xticks([1,2,3,4], ['normal', 'compiled', 'hybrid', 'vectorized'])
 plt.ylabel('Runtime in ms')
 plt.title("Performance Query 1")
 plt.savefig("performance_query_1_boxplot")
