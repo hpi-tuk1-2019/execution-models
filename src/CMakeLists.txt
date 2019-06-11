@@ -5,7 +5,9 @@ if (WIN32)
 endif (WIN32)
 
 if (UNIX)
-    add_definitions("-fopt-info-vec -O2")
+    add_definitions("-fopt-info-vec-all -march=native -O3 -ftree-vectorize")
+#    add_definitions("-O2")
+#    add_definitions("-O2  -ftree-vectorize")
 endif (UNIX)
 
 add_library(${PROJECT_NAME}

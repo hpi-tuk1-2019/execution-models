@@ -80,14 +80,26 @@ void QuerySix::op_shipdate_s(const table& tab, std::vector<bool>& bitmap){
 void QuerySix::op_quantity_s(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] &&  (tab.l_quantity[i] < 2400);
+    bitmap[i] = bitmap[i] && (tab.l_quantity[i] < 2400);
   }
 }
 
 void QuerySix::op_discount_ge(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
+
+  // int* l_discount_a[size];
+  // std::copy(tab.l_discount.begin(), tab.l_discount.end(), &l_discount_a);
+  bool bitmap_a[size];
+  std::copy(bitmap.begin(), bitmap.end(), bitmap_a);
+  // int*__restrict l_discount_a = const_cast<int*>(tab.l_discount.data());
+  //bool*__restrict bitmap_a = const_cast<std::vector<bool>*>(&bitmap);
+  // bool*__restrict bitmap_a = const_cast<bool*>(&bitmap[0]);
+
+#pragma ivdep
+  
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] &&  (tab.l_discount[i] >= 5);
+    // bitmap_a[i] = l_discount_a[i] >= 5;
+    bitmap_a[i] = true;
   }
 }
 

@@ -70,7 +70,7 @@ ResultMap QueryOne::execute_compiled(const table & tab)
     return result;
 }
 
-std::vector<bool> QueryOne::op_shipdate_se(const table& tab) {
+std::vector<bool> QueryOne::op_shipdate_se(const table&__restrict tab) __restrict {
     std::vector<bool> bitmap(tab.l_shipdate.size());
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         bitmap[i] = tab.l_shipdate[i] <= 904694400;
@@ -88,7 +88,7 @@ ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::
     return result;
 }
 
-void QueryOne::op_sum_qty(const table & tab, const std::vector<bool>& bitmap, ResultMap& groups)
+void QueryOne::op_sum_qty(const table& tab, const std::vector<bool>& bitmap, ResultMap& groups)
 {
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
