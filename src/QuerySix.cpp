@@ -90,8 +90,10 @@ void QuerySix::op_discount_ge(const table& tab, std::vector<bool>& bitmap){
   // int* l_discount_a[size];
   // std::copy(tab.l_discount.begin(), tab.l_discount.end(), &l_discount_a);
   int bitmap_a[size];
-  for (int i = 0; i < 6005; i++) {
+  int l_discount_a[size];
+  for (int i = 0; i < size; i++) {
     bitmap_a[i] = bitmap[i];
+    l_discount_a[i] = tab.l_discount[i] >= 5;
   }
   // int*__restrict l_discount_a = const_cast<int*>(tab.l_discount.data());
   //bool*__restrict bitmap_a = const_cast<std::vector<bool>*>(&bitmap);
@@ -103,7 +105,7 @@ void QuerySix::op_discount_ge(const table& tab, std::vector<bool>& bitmap){
     int c[size];
 
     for ( int i = 0; i < size ; i ++) {
-      a[i] += bitmap_a[i];
+      bitmap_a[i] += tab.l_discount[i] >= 5;;
     }
 
   for (int i = 0; i < 6005; i++) {
