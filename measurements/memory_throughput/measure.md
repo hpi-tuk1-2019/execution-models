@@ -31,7 +31,7 @@ Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm
 
 Max Memory Bandwidth:  [34.1 GB/s](
 https://ark.intel.com/content/www/de/de/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html)
-
+since there are 2 cores and we use a single threaded application the maximal bandwidth is 17.1 GB/s
 (All branchless)
 (All values are implemented as `uint64_t`)
 
@@ -45,7 +45,7 @@ Measurements (ns): 189394376 189061298 187842284 189126518 188030161 187571031 1
 
 10.61 GB/s / 34.1 GB/s = 31.11 %
 ```
-=> effective memory bandwidth utilization is 31.11 %
+=> effective memory bandwidth utilization is 31.11 % --> 62.22% for one core
 
 # TCPH Full Table Scan
 ```
@@ -59,7 +59,7 @@ Median: 3.707 ms
 
 10.79 GB/s / 34.1 GB/s = 31.64 %
 ```
-=> effective memory bandwidth utilization is 31.64 %
+=> effective memory bandwidth utilization is 31.64 % --> 63.28% for one core
 
 # Query 6 compiled
 Query 6 uses values
@@ -69,10 +69,10 @@ l_quantity
 l_shipdate
 l_shipdate
 ```
-4 * Decimal + 2 * Date = 6 * 8 byte = 48 byte 
+4 * Decimal + 2 * Date = 6 * 8 byte = 48 byte
 
 5000000 * 48 byte /  61864257 ns = 3.879 GB/s
 
 3.879 GB/s / 34.1 GB/s = 11.38%
 ```
-=> effective memory bandwidth utilization is 11.38%
+=> effective memory bandwidth utilization is 11.38% --> 22.76% for one core
