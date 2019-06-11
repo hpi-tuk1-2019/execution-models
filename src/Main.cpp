@@ -52,13 +52,13 @@ int main(int argc, char *argv[]) {
     q1sw.tok();
     q1sw.print_stats();
 
-    StopWatch q1sw1 = StopWatch("query one hyrbid");
+    StopWatch q1sw1 = StopWatch("query one hybrid");
     q1sw1.tik();
     q1.execute_hybrid(fileTable);
     q1sw1.tok();
     q1sw1.print_stats();
 
-    StopWatch q1sw2 = StopWatch("query one executed");
+    StopWatch q1sw2 = StopWatch("query one compiled");
     q1sw2.tik();
     q1.execute_compiled(fileTable);
     q1sw2.tok();
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     q6sw2.tok();
     q6sw2.print_stats();
 
-    StopWatch q6sw1 = StopWatch("query six executed");
+    StopWatch q6sw1 = StopWatch("query six compiled");
     q6sw1.tik();
     q6.execute_compiled(fileTable);
     q6sw1.tok();
