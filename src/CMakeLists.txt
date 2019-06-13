@@ -1,14 +1,22 @@
 file (GLOB_RECURSE SRCS . *.cpp)
 
-if (WIN32)
-    add_definitions("-fopt-info-vec /Qvec-report:2")
-elseif (APPLE)
-    add_definitions("-Rpass=loop-vectorize -Rpass-missed=loop-vectorize -Rpass-analysis=loop-vectorize -march=native -O3 -ftree-vectorize")
-elseif (UNIX)
-    add_definitions("-fopt-info-vec -march=native -O3 -ftree-vectorize")
-#    add_definitions("-O2")
-#    add_definitions("-O2  -ftree-vectorize")
-endif (WIN32)
+option(VECTORIZE OFF)
+
+if (VECTORIZE)
+  if (WIN32)
+      add_definitions("-fopt-info-vec /Qvec-report:2")
+  elseif (APPLE)
+      add_definitions("-Rpass=loop-vectorize -Rpass-missed=loop-vectorize -Rpass-analysis=loop-vectorize -march=native -O3 -ftree-vectorize")
+  elseif (UNIX)
+      add_definitions("-fopt-info-vec -march=native -O3 -ftree-vectorize")
+  endif (WIN32)
+else ()
+  if (APPLE)
+      add_definitions("-O3")
+  elseif (UNIX)
+      add_definitions("-O3")
+  endif (APPLE)
+endif (VECTORIZE)
 
 add_library(${PROJECT_NAME}
     ${SRCS}
