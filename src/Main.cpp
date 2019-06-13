@@ -36,7 +36,7 @@ void print_sample(table table_obj, int sample_size = 20) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data2/lineitem.tbl";
+    std::string filename = "../../assets/sample_data1/lineitem.tbl";
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
@@ -45,24 +45,24 @@ int main(int argc, char *argv[]) {
     reading.tok();
     reading.print_stats();
 
-//    QueryOne q1;
-//    StopWatch q1sw = StopWatch("query one normal");
-//    q1sw.tik();
-//    q1.execute(fileTable);
-//    q1sw.tok();
-//    q1sw.print_stats();
+    QueryOne q1;
+    StopWatch q1sw = StopWatch("query one normal");
+    q1sw.tik();
+    q1.execute(fileTable);
+    q1sw.tok();
+    q1sw.print_stats();
 
-    // StopWatch q1sw1 = StopWatch("query one hyrbid");
-    // q1sw1.tik();
-    // q1.execute_hybrid(fileTable);
-    // q1sw1.tok();
-    // q1sw1.print_stats();
+    StopWatch q1sw1 = StopWatch("query one hyrbid");
+    q1sw1.tik();
+    q1.execute_hybrid(fileTable);
+    q1sw1.tok();
+    q1sw1.print_stats();
 
-    // StopWatch q1sw2 = StopWatch("query one executed");
-    // q1sw2.tik();
-    // q1.execute_compiled(fileTable);
-    // q1sw2.tok();
-    // q1sw2.print_stats();
+    StopWatch q1sw2 = StopWatch("query one executed");
+    q1sw2.tik();
+    q1.execute_compiled(fileTable);
+    q1sw2.tok();
+    q1sw2.print_stats();
 
     QuerySix q6;
     StopWatch q6sw = StopWatch("query six normal");
@@ -71,37 +71,17 @@ int main(int argc, char *argv[]) {
     q6sw.tok();
     q6sw.print_stats();
 
-    //  StopWatch q6sw2 = StopWatch("query six hybrid");
-    // q6sw2.tik();
-    // q6.execute_hybrid(fileTable);
-    // q6sw2.tok();
-    // q6sw2.print_stats();
+    StopWatch q6sw2 = StopWatch("query six hybrid");
+    q6sw2.tik();
+    q6.execute_hybrid(fileTable);
+    q6sw2.tok();
+    q6sw2.print_stats();
 
-    // StopWatch q6sw1 = StopWatch("query six executed");
-    // q6sw1.tik();
-    // q6.execute_compiled(fileTable);
-    // q6sw1.tok();
-    // q6sw1.print_stats();
+    StopWatch q6sw1 = StopWatch("query six executed");
+    q6sw1.tik();
+    q6.execute_compiled(fileTable);
+    q6sw1.tok();
+    q6sw1.print_stats();
 
-
-    double a[256];
-    double b[256];
-    double c[256];
-
-    for ( int i = 0; i < 256 ; i ++)
-    {
-    a [ i ] = (double)i;
-    b [ i ] = (double)i;
-    }
-
-    for ( int i = 0; i < 256 ; i ++)
-    {
-    a [ i ] += b [ i ];
-    }
-
-    std::cout << a[100];
-
-    int d;
-    std::cin >> d;
     return 0;
 }
