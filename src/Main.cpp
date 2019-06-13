@@ -36,7 +36,7 @@ void print_sample(table table_obj, int sample_size = 20) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data1/lineitem.tbl";
+    std::string filename = "../../assets/sample_data/lineitem.tbl";
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
