@@ -55,7 +55,7 @@ double QuerySix::execute(const table& tab){
   return op_agg_sum(tab, bitmap);
 }
 
-double QuerySix::op_agg_sum(const table& tab, std::vector<bool>& bitmap){
+double QuerySix::op_agg_sum(const table& tab, const std::vector<bool>& bitmap){
   int sum = 0;
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
