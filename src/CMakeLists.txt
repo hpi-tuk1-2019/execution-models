@@ -1,12 +1,22 @@
 file (GLOB_RECURSE SRCS . *.cpp)
 
-if (WIN32)
-    add_definitions("-fopt-info-vec /Qvec-report:2")
-endif (WIN32)
-
-if (UNIX)
-    add_definitions("-fopt-info-vec -O2")
-endif (UNIX)
+option(VECTORIZE OFF)
+if (VECTORIZE)
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+      add_definitions("/O2 /Qvec-report:2")
+  elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+      add_definitions("-Rpass=loop-vectorize -Rpass-missed=loop-vectorize -Rpass-analysis=loop-vectorize -march=native -O3 -ftree-vectorize")
+  elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+      add_definitions("-fopt-info-vec -march=native -O3")
+  endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+else ()
+# There is no supported way in the Microsoft C++ Compiler to turn off auto-vectorization using compilation flags. This has to be done on the specific loops with a pragma flag.
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+      add_definitions("-O3")
+  elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+      add_definitions("-O3 -march=native -fno-tree-vectorize")
+  endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+endif (VECTORIZE)
 
 add_library(${PROJECT_NAME}
     ${SRCS}
