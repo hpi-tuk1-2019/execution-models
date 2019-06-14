@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
     q1sw1.write_to_file("q1_hybrid.csv");
     q1sw2.write_to_file("q1_compiled.csv");
     q6sw.write_to_file("q6_normal.csv");
-    q6sw.write_to_file("q6_compiled.csv");
-    q6sw.write_to_file("q6_hybrid.csv");
+    q6sw2.write_to_file("q6_compiled.csv");
+    q6sw1.write_to_file("q6_hybrid.csv");
 
 
     return 0;
