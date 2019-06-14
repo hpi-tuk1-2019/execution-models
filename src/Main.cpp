@@ -35,6 +35,13 @@ void print_sample(table table_obj, int sample_size = 20) {
     }
 }
 
+void print_res_q1(const ResultMap &res) {
+	for (auto entry : res) {
+		std::cout << entry.second.avg_disc << std::endl;
+		break;
+	}
+}
+
 int main(int argc, char *argv[]) {
     std::string filename = "../../assets/sample_data/lineitem.tbl";
     char delim = '|';
@@ -52,36 +59,44 @@ int main(int argc, char *argv[]) {
     reading.tok();
     reading.print_stats();
 		for (int i = 0; i < 10; i++) {
+			ResultMap resq1;
 			QueryOne q1;
 	    q1sw.tik();
-	    q1.execute(fileTable);
+	    resq1 = q1.execute(fileTable);
 	    q1sw.tok();
+			print_res_q1(resq1);
 	    q1sw.print_stats();
 
      	q1sw1.tik();
-     	q1.execute_hybrid(fileTable);
+     	resq1 = q1.execute_hybrid(fileTable);
      	q1sw1.tok();
+			print_res_q1(resq1);
      	q1sw1.print_stats();
 
      	q1sw2.tik();
-     	q1.execute_compiled(fileTable);
+     	resq1 = q1.execute_compiled(fileTable);
      	q1sw2.tok();
+			print_res_q1(resq1);
      	q1sw2.print_stats();
 
+			double resq6;
      	QuerySix q6;
      	q6sw.tik();
-     	q6.execute(fileTable);
+     	resq6 = q6.execute(fileTable);
      	q6sw.tok();
+			std::cout << resq6<< std::endl;
      	q6sw.print_stats();
 
      	q6sw2.tik();
-     	q6.execute_hybrid(fileTable);
+     	resq6= q6.execute_hybrid(fileTable);
      	q6sw2.tok();
+			std::cout << resq6<< std::endl;
      	q6sw2.print_stats();
 
      	q6sw1.tik();
-     	q6.execute_compiled(fileTable);
+     	resq6= q6.execute_compiled(fileTable);
      	q6sw1.tok();
+			std::cout << resq6<< std::endl;
      	q6sw1.print_stats();
 		}
 		q1sw.write_to_file("q1_normal.csv");
