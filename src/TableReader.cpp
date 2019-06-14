@@ -47,7 +47,7 @@ int parseDate(std::ifstream& file, const char delim) {
   return date;
 }
 
-table readFile(std::string filename, const char delim)
+table readFile(const std::string& filename, const char delim)
 {
     std::ifstream file(filename);
     table fileTable;
