@@ -1,7 +1,7 @@
 echo "Build without vectorization"
 cd build
 rm CMakeCache.txt
-cmake -DVECTORIZE=OFF ..
+cmake -DVECTORIZE=OFF -DCMAKE_BUILD_TYPE=Release ..
 make -j 8 -B
 (cd src && ./Main)
 mkdir non_vectorized
@@ -11,7 +11,7 @@ cd ..
 echo "build with vectormrization"
 cd build
 rm CMakeCache.txt
-cmake -DVECTORIZE=ON ..
+cmake -DVECTORIZE=ON -DCMAKE_BUILD_TYPE=Release ..
 make -j 8 -B
 (cd src && ./Main)
 mkdir vectorized
