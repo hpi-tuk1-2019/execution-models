@@ -5,15 +5,15 @@
 #include <iostream>
 #include <chrono>
 
-void print_char_array(std::array<char, 45> char_array) {
-	for (int i = 0; i < sizeof(char_array); i++) {
-		std::cout << char_array[i];
-	}
-	std::cout <<  ", ";
+void print_char_array(const std::array<char, 45>& char_array) {
+    for (int i = 0; i < sizeof(char_array); i++) {
+        std::cout << char_array[i];
+    }
+    std::cout << ", ";
 }
 
-void print_sample(table table_obj, int sample_size = 20) {
-    for (int i = 0; i < sample_size; i++){
+void print_sample(const table& table_obj, const int sample_size = 20) {
+    for (int i = 0; i < sample_size; i++) {
         std::cout << table_obj.l_orderkey.at(i) << ", ";
         std::cout << table_obj.l_partkey.at(i) << ", ";
         std::cout << table_obj.l_suppkey.at(i) << ", ";
@@ -47,12 +47,12 @@ int main(int argc, char *argv[]) {
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
-		StopWatch q1sw = StopWatch("query one normal");
-		StopWatch q1sw1 = StopWatch("query one hyrbid");
-		StopWatch q1sw2 = StopWatch("query one compiled");
-		StopWatch q6sw = StopWatch("query six normal");
-		StopWatch q6sw2 = StopWatch("query six hybrid");
-		StopWatch q6sw1 = StopWatch("query six compiled");
+    StopWatch q1sw = StopWatch("query one normal");
+    StopWatch q1sw1 = StopWatch("query one hyrbid");
+    StopWatch q1sw2 = StopWatch("query one compiled");
+    StopWatch q6sw = StopWatch("query six normal");
+    StopWatch q6sw2 = StopWatch("query six hybrid");
+    StopWatch q6sw1 = StopWatch("query six compiled");
 
     reading.tik();
     auto fileTable = readFile(filename, delim);
