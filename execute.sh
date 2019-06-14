@@ -1,15 +1,17 @@
 echo "Build without vectorization"
-cmake -B build -DVECTORIZE=OFF
 cd build
+rm CMakeCache.txt
+cmake -DVECTORIZE=OFF ..
 make -j 8 -B
 (cd src && ./Main)
-mkdir build/non_vectorized
-mv build/src/*.csv build/non_vectorized/
+mkdir non_vectorized
+mv src/*.csv non_vectorized/
 cd ..
 
-echo "build with vectorization"
-cmake -B build -DVECTORIZE=ON
+echo "build with vectormrization"
 cd build
+rm CMakeCache.txt
+cmake -DVECTORIZE=ON ..
 make -j 8 -B
 (cd src && ./Main)
 mkdir vectorized
