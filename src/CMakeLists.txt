@@ -5,6 +5,10 @@ option(VECTORIZE OFF)
 if (VECTORIZE)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
       add_definitions("/O2 /Qvec-report:2")
+  elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+      add_definitions("-march=core-avx2 -ax=CORE-AVX2
+ -vec -qopt-report-stdout -qopt-report=7 -diag-enable=vec,par -x=Host")
+# -guide-vec=4
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
       add_definitions("-Rpass=loop-vectorize -Rpass-missed=loop-vectorize -Rpass-analysis=loop-vectorize -march=native -O3 -ftree-vectorize")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
