@@ -7,7 +7,7 @@ mkdir build/non_vectorized
 mv build/src/*.csv build/non_vectorized/
 cd ..
 
-echo "build with vectroization"
+echo "build with vectorization"
 cmake -B build -DVECTORIZE=ON
 cd build
 make -j 8 -B
