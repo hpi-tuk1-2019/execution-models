@@ -43,7 +43,7 @@ void print_res_q1(const ResultMap &res) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data/lineitem.tbl";
+    std::string filename = "../../assets/sample_data2/lineitem.tbl";
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");

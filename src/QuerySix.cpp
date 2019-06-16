@@ -23,7 +23,8 @@ double QuerySix::execute_hybrid(const table& tab) {
 
 double QuerySix::execute_compiled(const table& tab){
   int sum = 0;
-  for (int i = 0; i < tab.l_extendedprice.size(); i++) {
+  int size =  tab.l_extendedprice.size();
+  for (int i = 0; i < size; i++) {
     sum += (int)((tab.l_discount[i] >= 5) &&
                   (tab.l_discount[i] <= 7) &&
                   (tab.l_shipdate[i] < 788918400) &&
