@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     StopWatch q6sw = StopWatch("query 6 normal");
 
     reading.tik();
-    auto fileTable = readFile(filename, delim);
+    const auto fileTable = readFile(filename, delim);
     reading.tok();
     reading.print_stats();
 
@@ -61,10 +61,12 @@ int main(int argc, char *argv[]) {
 
     QuerySix q6;
     for (int i = 0; i < rounds; i++) {
+      int size = fileTable.l_extendedprice.size();
+      std::vector<int> bitmap(size, true);
       q6sw.tik();
-      double res = q6.execute(fileTable);
+      q6.op_discount_ge(fileTable, bitmap);
       q6sw.tok();
-      std::cout << res << std::endl;
+      std::cout << bitmap[5] << std::endl;
     }
     q6sw.write_to_file("measure_bandwidth_q6.csv");
 
