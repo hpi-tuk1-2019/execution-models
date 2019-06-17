@@ -10,12 +10,13 @@ double QuerySix::execute_hybrid(const table& tab) {
   op_discount_ge(tab, bitmap);
   int sum = 0;
   for (int i = 0; i < size; i++) {
-    sum += (int)(
+    if (bitmap[i] &&
                 (tab.l_discount[i] <= 7) &&
                 (tab.l_shipdate[i] < 788918400) &&
                 (tab.l_shipdate[i] >= 757382400) &&
-                (tab.l_quantity[i] < 2400))
-           * tab.l_extendedprice[i] * tab.l_discount[i] * bitmap[i];
+                (tab.l_quantity[i] < 2400)) {
+                  sum += tab.l_extendedprice[i] * tab.l_discount[i];
+                }
   }
   return (double)sum / 10000.0;
 }
@@ -23,12 +24,13 @@ double QuerySix::execute_hybrid(const table& tab) {
 double QuerySix::execute_compiled(const table& tab){
   int sum = 0;
   for (int i = 0; i < tab.l_extendedprice.size(); i++) {
-    sum += (int)((tab.l_discount[i] >= 5) &&
+    if ((tab.l_discount[i] >= 5) &&
                   (tab.l_discount[i] <= 7) &&
                   (tab.l_shipdate[i] < 788918400) &&
                   (tab.l_shipdate[i] >= 757382400) &&
-                  (tab.l_quantity[i] < 2400))
-            * tab.l_extendedprice[i] * tab.l_discount[i];
+                  (tab.l_quantity[i] < 2400)) {
+                    sum +=  tab.l_extendedprice[i] * tab.l_discount[i];
+                  }
   }
   return (double)sum / 10000.0;
 }
@@ -58,7 +60,9 @@ double QuerySix::op_agg_sum(const table& tab, std::vector<bool>& bitmap){
   int sum = 0;
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    sum += bitmap[i] * tab.l_extendedprice[i] * tab.l_discount[i];
+    if (bitmap[i]) {
+      sum += tab.l_extendedprice[i] * tab.l_discount[i];
+    }
   }
   return (double)sum / 10000.00;
 }
@@ -66,34 +70,44 @@ double QuerySix::op_agg_sum(const table& tab, std::vector<bool>& bitmap){
 void QuerySix::op_shipdate_ge(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_shipdate[i] >= 757382400);
+    if (!(tab.l_shipdate[i] >= 757382400)) {
+      bitmap[i] = 0;
+    }
   }
 }
 
 void QuerySix::op_shipdate_s(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] *  (tab.l_shipdate[i] < 788918400);
+    if (!(tab.l_shipdate[i] < 788918400)) {
+      bitmap[i] = 0;
+    }
   }
 }
 
 void QuerySix::op_quantity_s(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_quantity[i] < 2400);
+    if (!(tab.l_quantity[i] < 2400)) {
+      bitmap[i] = 0;
+    }
   }
 }
 
 void QuerySix::op_discount_ge(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
     for ( int i = 0; i < size ; i ++) {
-      bitmap[i] = (tab.l_discount[i] >= 5);
+      if (!(tab.l_discount[i] >= 5)) {
+        bitmap[i] = 0;
+      }
     }
 }
 
 void QuerySix::op_discount_se(const table& tab, std::vector<bool>& bitmap){
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_discount[i] <= 7);
+    if (!(tab.l_discount[i] <= 7)){
+      bitmap[i] = 0;
+    }
   }
 }

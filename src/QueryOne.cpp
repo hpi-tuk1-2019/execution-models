@@ -27,13 +27,14 @@ ResultMap QueryOne::execute_hybrid(const table & tab)
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
         auto& resultRow = result.at(key);
-        int useRow = bitmap[i];
-        resultRow.count_order += useRow;
-        resultRow.sum_qty += tab.l_quantity[i] * useRow;
-        resultRow.sum_base_price += tab.l_extendedprice[i] * useRow;
-        resultRow.sum_disc_price += useRow * tab.l_extendedprice[i] * double(100 - tab.l_discount[i]) / 100.0;
-        resultRow.sum_charge += useRow * tab.l_extendedprice[i] * double(100 - tab.l_discount[i]) / 100.0 * double(100 + tab.l_tax[i]) / 100.0;
-        resultRow.avg_disc += useRow * tab.l_discount[i];
+        if (bitmap[i]) {
+          resultRow.count_order += 1;
+          resultRow.sum_qty += tab.l_quantity[i];
+          resultRow.sum_base_price += tab.l_extendedprice[i];
+          resultRow.sum_disc_price += tab.l_extendedprice[i] * double(100 - tab.l_discount[i]) / 100.0;
+          resultRow.sum_charge += tab.l_extendedprice[i] * double(100 - tab.l_discount[i]) / 100.0 * double(100 + tab.l_tax[i]) / 100.0;
+          resultRow.avg_disc += tab.l_discount[i];
+        }
     }
     // calculate averages
     for (auto& resultRow : result) {
@@ -73,7 +74,11 @@ ResultMap QueryOne::execute_compiled(const table & tab)
 std::vector<bool> QueryOne::op_shipdate_se(const table&__restrict tab) __restrict {
     std::vector<bool> bitmap(tab.l_shipdate.size());
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
-        bitmap[i] = tab.l_shipdate[i] <= 904694400;
+      if (!(tab.l_shipdate[i] <= 904694400)) {
+        bitmap[i] = 0;
+      } else {
+        bitmap[i] = 1;
+      }
     }
     return bitmap;
 }
@@ -93,7 +98,9 @@ void QueryOne::op_sum_qty(const table& tab, const std::vector<bool>& bitmap, Res
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        group.sum_qty += bitmap[i] * tab.l_quantity[i];
+        if (bitmap[i]) {
+          group.sum_qty +=  tab.l_quantity[i];
+        }
     }
 }
 
@@ -102,7 +109,9 @@ void QueryOne::op_sum_base_price(const table & tab, const std::vector<bool>& bit
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        group.sum_base_price += bitmap[i] * tab.l_extendedprice[i] ;
+        if (bitmap[i]) {
+          group.sum_base_price += tab.l_extendedprice[i] ;
+        }
     }
 }
 
@@ -111,7 +120,9 @@ void QueryOne::op_sum_disk_price(const table & tab, const std::vector<bool>& bit
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        group.sum_disc_price = bitmap[i] * tab.l_extendedprice[i] * (100-tab.l_discount[i]);
+        if (bitmap[i]) {
+            group.sum_disc_price = tab.l_extendedprice[i] * (100-tab.l_discount[i]);
+        }
     }
 }
 
@@ -120,8 +131,9 @@ void QueryOne::op_sum_charge(const table & tab, const std::vector<bool>& bitmap,
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        auto currentCharge = tab.l_extendedprice[i] * double((100 - tab.l_discount[i]) * (100 - tab.l_tax[i]))  / 10000.0;
-        group.sum_charge = (currentCharge * bitmap[i]);
+        if (bitmap[i]) {
+          group.sum_charge = tab.l_extendedprice[i] * double((100 - tab.l_discount[i]) * (100 - tab.l_tax[i]))  / 10000.0;
+        }
     }
 }
 
@@ -144,7 +156,9 @@ void QueryOne::op_avg_disc(const table & tab, const std::vector<bool>& bitmap, R
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        group.avg_disc +=  tab.l_discount[i] *  bitmap[i];
+        if (bitmap[i]) {
+          group.avg_disc +=  tab.l_discount[i];
+        }
     }
     for (auto& group : groups) {
         group.second.avg_disc = group.second.avg_disc / double(group.second.count_order);
@@ -156,6 +170,8 @@ void QueryOne::op_count_order(const table & tab, const std::vector<bool>& bitmap
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
         auto& group = groups.at(key);
-        group.count_order += bitmap[i];
+        if (bitmap[i]) {
+          group.count_order += 1;
+        }
     }
 }
