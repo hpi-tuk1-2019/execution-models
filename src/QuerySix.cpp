@@ -10,10 +10,10 @@ double QuerySix::execute_hybrid(const table& tab) {
   op_discount_ge(tab, bitmap);
   int sum = 0;
   for (int i = 0; i < size; i++) {
-    if (bitmap[i] &&
-                (tab.l_discount[i] <= 7) &&
-                (tab.l_shipdate[i] < 788918400) &&
-                (tab.l_shipdate[i] >= 757382400) &&
+    if (bitmap[i] &
+                (tab.l_discount[i] <= 7) &
+                (tab.l_shipdate[i] < 788918400) &
+                (tab.l_shipdate[i] >= 757382400) &
                 (tab.l_quantity[i] < 2400)) {
                   sum += tab.l_extendedprice[i] * tab.l_discount[i];
                 }
