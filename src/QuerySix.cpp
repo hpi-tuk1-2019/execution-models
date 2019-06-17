@@ -10,12 +10,12 @@ double QuerySix::execute_hybrid(const table& tab) {
   op_discount_ge(tab, bitmap);
   int sum = 0;
   for (int i = 0; i < size; i++) {
-    sum += (int)(
-                (tab.l_discount[i] <= 7) &&
-                (tab.l_shipdate[i] < 788918400) &&
-                (tab.l_shipdate[i] >= 757382400) &&
+    sum += (bitmap[i] &
+                (tab.l_discount[i] <= 7) &
+                (tab.l_shipdate[i] < 788918400) &
+                (tab.l_shipdate[i] >= 757382400) &
                 (tab.l_quantity[i] < 2400))
-           * tab.l_extendedprice[i] * tab.l_discount[i] * bitmap[i];
+           * tab.l_extendedprice[i] * tab.l_discount[i];
   }
   return (double)sum / 10000.0;
 }
@@ -23,10 +23,10 @@ double QuerySix::execute_hybrid(const table& tab) {
 double QuerySix::execute_compiled(const table& tab){
   int sum = 0;
   for (int i = 0; i < tab.l_extendedprice.size(); i++) {
-    sum += (int)((tab.l_discount[i] >= 5) &&
-                  (tab.l_discount[i] <= 7) &&
-                  (tab.l_shipdate[i] < 788918400) &&
-                  (tab.l_shipdate[i] >= 757382400) &&
+    sum += ((tab.l_discount[i] >= 5) &
+                  (tab.l_discount[i] <= 7) &
+                  (tab.l_shipdate[i] < 788918400) &
+                  (tab.l_shipdate[i] >= 757382400) &
                   (tab.l_quantity[i] < 2400))
             * tab.l_extendedprice[i] * tab.l_discount[i];
   }
