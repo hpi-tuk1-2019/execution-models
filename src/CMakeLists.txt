@@ -15,7 +15,7 @@ else ()
       add_definitions("-O3 -fno-tree-vectorize")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
       add_definitions("-O3 -march=native -fno-tree-vectorize")
-  endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 endif (VECTORIZE)
 
 add_library(${PROJECT_NAME}
