@@ -23,7 +23,7 @@ void StopWatch::print_stats() {
 }
 
 void StopWatch::write_to_file(std::string filename) {
-    std::ofstream file(filename);
+    std::ofstream file(filename, std::ofstream::app);
 
     if (!file.is_open()) {
         std::cout << "File cannot be opened";
@@ -32,4 +32,5 @@ void StopWatch::write_to_file(std::string filename) {
     for (auto& m : measurements) {
         file << std::to_string(m) + "\n";
     }
+    file.close();
 }

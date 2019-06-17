@@ -43,7 +43,7 @@ void print_res_q1(const ResultMap &res) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data/lineitem.tbl";
+    std::string filename = "../../assets/sample_data2/lineitem.tbl";
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
@@ -58,7 +58,8 @@ int main(int argc, char *argv[]) {
     auto fileTable = readFile(filename, delim);
     reading.tok();
     reading.print_stats();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 100; i++) {
+        /*
         ResultMap resq1;
         QueryOne q1;
         q1sw.tik();
@@ -78,7 +79,7 @@ int main(int argc, char *argv[]) {
         q1sw2.tok();
         print_res_q1(resq1);
         q1sw2.print_stats();
-
+        */
         double resq6;
         QuerySix q6;
         q6sw.tik();
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
         q6sw.tok();
         std::cout << resq6 << std::endl;
         q6sw.print_stats();
-
+        
         q6sw2.tik();
         resq6 = q6.execute_hybrid(fileTable);
         q6sw2.tok();
@@ -103,8 +104,8 @@ int main(int argc, char *argv[]) {
     q1sw1.write_to_file("q1_hybrid.csv");
     q1sw2.write_to_file("q1_compiled.csv");
     q6sw.write_to_file("q6_normal.csv");
-    q6sw.write_to_file("q6_compiled.csv");
-    q6sw.write_to_file("q6_hybrid.csv");
+    q6sw1.write_to_file("q6_compiled.csv");
+    q6sw2.write_to_file("q6_hybrid.csv");
 
 
     return 0;
