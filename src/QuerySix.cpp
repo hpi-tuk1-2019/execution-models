@@ -4,14 +4,14 @@
 #include <vector>
 #include <iostream>
 
-double QuerySix::execute_hybrid(const table& tab) {
+double QuerySix::execute_hybrid(const table& tab) {  
   int size = tab.l_extendedprice.size();
-  std::vector<int> bitmap(size, true);
+  std::vector<bool> bitmask(size, true);
 
-  op_discount_ge(tab, bitmap);
+  op_discount_ge(tab, bitmask);
   int sum = 0;
   for (int i = 0; i < size; i++) {
-    sum += (int)(bitmap[i] &&
+    sum += (int)(bitmask[i] &&
                 (tab.l_discount[i] <= 7) &&
                 (tab.l_shipdate[i] < 788918400) &&
                 (tab.l_shipdate[i] >= 757382400) &&
@@ -35,7 +35,7 @@ double QuerySix::execute_compiled(const table& tab){
   return (double)sum / 10000.0;
 }
 
-int count_bm(std::vector<int> bm) {
+int count_bm(std::vector<bool> bm) {
   int count = 0;
   for (auto i: bm) {
     if (bm[i]) {
@@ -46,62 +46,66 @@ int count_bm(std::vector<int> bm) {
 }
 
 double QuerySix::execute(const table& tab){
-  std::vector<int> bitmap(tab.l_extendedprice.size(), true);
+  std::vector<bool> bitmask(tab.l_extendedprice.size(), true);
 
-  op_discount_ge(tab, bitmap);
-  op_discount_se(tab, bitmap);
-  op_shipdate_s(tab, bitmap);
-  op_shipdate_ge(tab, bitmap);
-  op_quantity_s(tab, bitmap);
-  return op_agg_sum(tab, bitmap);
+  op_discount_ge(tab, bitmask);
+  op_discount_se(tab, bitmask);
+  op_shipdate_s(tab, bitmask);
+  op_shipdate_ge(tab, bitmask);
+  op_quantity_s(tab, bitmask);
+  return op_agg_sum(tab, bitmask);
 }
 
-double QuerySix::op_agg_sum(const table& tab, std::vector<int>& bitmap){
+double QuerySix::op_agg_sum(const table& tab, std::vector<bool>& bitmask){
   int sum = 0;
-  int size = bitmap.size();
-#pragma GCC ivdep
+  int size = bitmask.size();
   for (int i = 0; i < size; i++) {
-    sum = db_plus(sum,db_times(bitmap[i], db_times(tab.l_extendedprice[i], tab.l_discount[i])));
+    sum = db_plus(sum,db_times(bitmask[i], db_times(tab.l_extendedprice[i], tab.l_discount[i])));
   }
   return (double)sum / 10000.00;
 }
 
-void QuerySix::op_shipdate_ge(const table& tab, std::vector<int>& bitmap){
-  int size = bitmap.size();
+void QuerySix::op_shipdate_ge(const table& tab, std::vector<bool>& bitmask){
+  int size = bitmask.size();
 #pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_shipdate[i] >= 757382400);
+    bitmask[i] = bitmask[i] * (tab.l_shipdate[i] >= 757382400);
   }
 }
 
-void QuerySix::op_shipdate_s(const table& tab, std::vector<int>& bitmap){
-  int size = bitmap.size();
+void QuerySix::op_shipdate_s(const table& tab, std::vector<bool>& bitmask){
+  int size = bitmask.size();
 #pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] *  (tab.l_shipdate[i] < 788918400);
+    bitmask[i] = bitmask[i] *  (tab.l_shipdate[i] < 788918400);
   }
 }
 
-void QuerySix::op_quantity_s(const table& tab, std::vector<int>& bitmap){
-  int size = bitmap.size();
+void QuerySix::op_quantity_s(const table& tab, std::vector<bool>& bitmask){
+  int size = bitmask.size();
 #pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_quantity[i] < 2400);
+    bitmask[i] = bitmask[i] * (tab.l_quantity[i] < 2400);
   }
 }
 
-void QuerySix::op_discount_ge(const table& tab, std::vector<int>& bitmap){
-  int size = bitmap.size();
+void QuerySix::op_discount_ge(const table& tab, std::vector<bool>& bitmask){
+  int size = bitmask.size();
 #pragma GCC ivdep
+#pragma ivdep
     for ( int i = 0; i < size ; i ++) {
-      bitmap[i] = (tab.l_discount[i] >= 5);
+      bitmask[i] = (tab.l_discount[i] >= 5);
     }
 }
 
-void QuerySix::op_discount_se(const table& tab, std::vector<int>& bitmap){
-  int size = bitmap.size();
+void QuerySix::op_discount_se(const table& tab, std::vector<bool>& bitmask){
+  int size = bitmask.size();
 #pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_discount[i] <= 7);
+    bitmask[i] = bitmask[i] * (tab.l_discount[i] <= 7);
   }
 }
