@@ -1,6 +1,5 @@
 #include "TableReader.h"
 #include "QuerySix.h"
-#include "MathematicalOperators.h"
 #include <vector>
 #include <iostream>
 
@@ -59,7 +58,7 @@ double QuerySix::op_agg_sum(const table& tab, std::vector<int>& bitmap){
   int sum = 0;
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    sum = db_plus(sum,db_times(bitmap[i], db_times(tab.l_extendedprice[i], tab.l_discount[i])));
+    sum += bitmap[i] * tab.l_extendedprice[i] * tab.l_discount[i];
   }
   return (double)sum / 10000.00;
 }
