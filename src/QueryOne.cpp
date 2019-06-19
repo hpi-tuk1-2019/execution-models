@@ -74,8 +74,8 @@ ResultMap QueryOne::execute_compiled(const table & tab)
     return result;
 }
 
-std::vector<int> QueryOne::op_shipdate_se(const table&__restrict tab) __restrict {
-    std::vector<int> bitmap(tab.l_shipdate.size());
+std::vector<BITMAP_TYPE> QueryOne::op_shipdate_se(const table&__restrict tab) __restrict {
+    std::vector<BITMAP_TYPE> bitmap(tab.l_shipdate.size());
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
         bitmap[i] = tab.l_shipdate[i] <= 904694400;
@@ -84,7 +84,7 @@ std::vector<int> QueryOne::op_shipdate_se(const table&__restrict tab) __restrict
 }
 
 
-ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::vector<int>& bitmap) {
+ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::vector<BITMAP_TYPE>& bitmap) {
     ResultMap result;
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -94,7 +94,7 @@ ResultMap QueryOne::op_group_returnflag_linestatus(const table& tab, const std::
     return result;
 }
 
-void QueryOne::op_sum_qty(const table& tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_sum_qty(const table& tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -104,7 +104,7 @@ void QueryOne::op_sum_qty(const table& tab, const std::vector<int>& bitmap, Resu
     }
 }
 
-void QueryOne::op_sum_base_price(const table & tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_sum_base_price(const table & tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -114,7 +114,7 @@ void QueryOne::op_sum_base_price(const table & tab, const std::vector<int>& bitm
     }
 }
 
-void QueryOne::op_sum_disk_price(const table & tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_sum_disk_price(const table & tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -124,7 +124,7 @@ void QueryOne::op_sum_disk_price(const table & tab, const std::vector<int>& bitm
     }
 }
 
-void QueryOne::op_sum_charge(const table & tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_sum_charge(const table & tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -149,7 +149,7 @@ void QueryOne::op_avg_price(const table & tab, ResultMap& groups)
     }
 }
  
-void QueryOne::op_avg_disc(const table & tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_avg_disc(const table & tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
@@ -162,7 +162,7 @@ void QueryOne::op_avg_disc(const table & tab, const std::vector<int>& bitmap, Re
     }
 }
 
-void QueryOne::op_count_order(const table & tab, const std::vector<int>& bitmap, ResultMap& groups)
+void QueryOne::op_count_order(const table & tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups)
 {
     int size = tab.l_shipdate.size();
     for (int i = 0; i < size; i++) {
