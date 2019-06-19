@@ -59,7 +59,7 @@ table readFile(const std::string& filename, const char delim)
 
 
     // length of table and columntypes from lineitem.tbl
-    for(int i = 0; i < 600000; ++i)
+    for(int i = 0; i < 6000; ++i)
     {
         fileTable.l_orderkey.push_back(parseInt(file, delim));
         fileTable.l_partkey.push_back(parseInt(file, delim));
