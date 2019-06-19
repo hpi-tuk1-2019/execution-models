@@ -26,8 +26,6 @@ ResultMap QueryOne::execute_hybrid(const table & tab)
     ResultMap result;
     for (int i = 0; i < tab.l_shipdate.size(); i++) {
         auto key = std::pair<char, char>(tab.l_returnflag[i], tab.l_linestatus[i]);
-        // TODO rewrite as loop with fixed control variable to aid auto-vectorization
-        // TODO rewrite to support late materialization (are we copying here?)
         result.insert(std::pair<std::pair<char, char>, ResultRow>(key, ResultRow()));
         auto& resultRow = result.at(key);
         int useRow = bitmap[i];
@@ -39,7 +37,6 @@ ResultMap QueryOne::execute_hybrid(const table & tab)
         resultRow.avg_disc += useRow * tab.l_discount[i];
     }
     // calculate averages
-    // TODO: explicitly have size variable to help with auto-vectorization
     for (auto& resultRow : result) {
         auto& rr = resultRow.second;
         rr.avg_qty = double(rr.sum_qty) / double(rr.count_order);
