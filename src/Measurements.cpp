@@ -40,20 +40,27 @@ int main(int argc, char *argv[]) {
   long int obs_size = 2500000;
   int rounds = 100;
   std::string filename = "../../assets/sample_data/lineitem.tbl";
-    if (argc < 4) {
-      std::cout << "Using standard values" << std::endl;
-    } else {
-      filename = argv[1];
-      obs_size = std::stod(argv[2]);
-      rounds = std::stod(argv[3]);
-    }
+  if (argc < 4) {
+		std::cerr << "Usage: " << argv[0] << " <filepath> <#items> <#executions>" << std::endl;
+		return 1;
+	}
+  try {
+		std::string filename = argv[1];
+		obs_size = std::stoi(argv[2]);
+		rounds = std::stoi(argv[3]);
+	}
+	catch (const std::exception & e) {
+		std::cerr << "Usage: " << argv[0] << " <filepath> <#items> <#executions>" << std::endl;
+		return 1;
+	}
+
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
     StopWatch q6sw = StopWatch("query 6 normal");
 
     reading.tik();
-    const auto fileTable = readFile(filename, delim);
+    auto fileTable = readFile(filename, delim, obs_size);
     reading.tok();
     reading.print_stats();
 
