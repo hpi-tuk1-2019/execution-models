@@ -26,7 +26,7 @@ struct table {
     std::vector<dbString> l_comment; // variable text size 44
 };
 
-table readFile(const std::string& filename, const char delim);
+table readFile(const std::string& filename, const char delim, int noLineItems);
 int parseInt(std::ifstream& file, const char delim);
 dbString parseString(std::ifstream& file, const char delim);
 char parseChar(std::ifstream& file, const char delim);
