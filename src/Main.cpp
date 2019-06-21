@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 	int noLineItems = 0;
 	int noExecutions = 0;
 	try {
-		std::string filename = argv[1];
+		filename = argv[1];
 		noLineItems = std::stoi(argv[2]);
 		noExecutions = std::stoi(argv[3]);
 	}
