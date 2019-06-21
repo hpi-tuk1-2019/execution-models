@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
   try {
-		std::string filename = argv[1];
+		filename = argv[1];
 		obs_size = std::stoi(argv[2]);
 		rounds = std::stoi(argv[3]);
 	}
