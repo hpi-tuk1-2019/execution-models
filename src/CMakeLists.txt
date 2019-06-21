@@ -17,7 +17,7 @@ if (VECTORIZE)
 else ()
 # There is no supported way in the Microsoft C++ Compiler to turn off auto-vectorization using compilation flags. This has to be done on the specific loops with a pragma flag.
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-      add_definitions("-march=core-avx2 -O3")
+      add_definitions("-O3 -fno-tree-vectorize")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
       add_definitions("-xCORE-AVX2 -axCORE-AVX2 -O3 -no-vec -qopt-report-stdout -qopt-report-phase=vec -qopt-report=1")
       add_compile_definitions(BITMAP_TYPE=bool)

@@ -43,7 +43,23 @@ void print_res_q1(const ResultMap &res) {
 }
 
 int main(int argc, char *argv[]) {
-    std::string filename = "../../assets/sample_data/lineitem.tbl";
+	if (argc < 4) {
+		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
+		return 1;
+	}
+	std::string filename = "../../assets/sample_data/lineitem.tbl";
+	int noLineItems = 0;
+	int noExecutions = 0;
+	try {
+		std::string filename = argv[1];
+		noLineItems = std::stoi(argv[2]);
+		noExecutions = std::stoi(argv[3]);
+	}
+	catch (const std::exception & e) {
+		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
+		return 1;
+	}
+
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
@@ -55,10 +71,10 @@ int main(int argc, char *argv[]) {
     StopWatch q6sw1 = StopWatch("query six compiled");
 
     reading.tik();
-    auto fileTable = readFile(filename, delim);
+    auto fileTable = readFile(filename, delim, noLineItems);
     reading.tok();
     reading.print_stats();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < noExecutions; i++) {
         ResultMap resq1;
         QueryOne q1;
         q1sw.tik();
@@ -103,8 +119,8 @@ int main(int argc, char *argv[]) {
     q1sw1.write_to_file("q1_hybrid.csv");
     q1sw2.write_to_file("q1_compiled.csv");
     q6sw.write_to_file("q6_normal.csv");
-    q6sw.write_to_file("q6_compiled.csv");
-    q6sw.write_to_file("q6_hybrid.csv");
+    q6sw1.write_to_file("q6_compiled.csv");
+    q6sw2.write_to_file("q6_hybrid.csv");
 
 
     return 0;
