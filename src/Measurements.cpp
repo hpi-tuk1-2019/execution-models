@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     QuerySix q6;
     for (int i = 0; i < rounds; i++) {
       int size = fileTable.l_extendedprice.size();
-      std::vector<int> bitmap(size, true);
+      std::vector<BITMAP_TYPE> bitmap(size, true);
       q6sw.tik();
       q6.op_discount_ge(fileTable, bitmap);
       q6sw.tok();

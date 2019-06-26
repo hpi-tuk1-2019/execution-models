@@ -17,7 +17,7 @@ typedef std::map<std::pair<char, char>, ResultRow> ResultMap;
 
 class QueryOne {
   private:
-    std::vector<int> op_shipdate_se(const table& tab);
+    std::vector<BITMAP_TYPE> op_shipdate_se(const table& tab);
     ResultMap op_group_returnflag_linestatus(const table& tab, const std::vector<BITMAP_TYPE>& bitmap);
     void op_sum_qty(const table& tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups);
     void op_sum_base_price(const table& tab, const std::vector<BITMAP_TYPE>& bitmap, ResultMap& groups);

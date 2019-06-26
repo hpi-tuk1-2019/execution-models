@@ -11,6 +11,5 @@ class QuerySix {
     double execute(const table& tab);
     double execute_compiled(const table& tab);
     double execute_hybrid(const table& tab);
-    void op_discount_ge(const table& tab, std::vector<int>& bitmap);
-
+    void op_discount_ge(const table& tab, std::vector<BITMAP_TYPE>& bitmap);
 };

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 
+
 void print_char_array(const std::array<char, 45>& char_array) {
     for (int i = 0; i < sizeof(char_array); i++) {
         std::cout << char_array[i];
@@ -47,7 +48,12 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
 		return 1;
 	}
-	std::string filename = "../../assets/sample_data/lineitem.tbl";
+
+    int sel = SELECTIVITY;
+
+    std::cout << "Selectivity: " << sel << std::endl;
+
+	std::string filename = "../../assets/sample_data2/lineitem.tbl";
 	int noLineItems = 0;
 	int noExecutions = 0;
 	try {
