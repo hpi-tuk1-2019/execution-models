@@ -7,16 +7,16 @@ EXECUTIONS="${EXECUTIONS:-20}"
 # Selectivity 5 translates to 50% (TCP-H standard)
 SELECTIVITY="${SELECTIVITY:-5}"
 
-# echo "Build without vectorization"
-# rm -f build/CMakeCache.txt
-# cmake -DVECTORIZE=OFF -DCMAKE_BUILD_TYPE=Release -DSELECTIVITY=$SELECTIVITY -B build
-# cd build
-# make -j 8 -B
-# (cd src && ./Main $FILEPATH $LINEITEMS $EXECUTIONS)
-# rm -rf non_vectorized
-# mkdir non_vectorized
-# mv src/*.csv non_vectorized/
-# cd ..
+echo "Build without vectorization"
+rm -f build/CMakeCache.txt
+cmake -DVECTORIZE=OFF -DCMAKE_BUILD_TYPE=Release -DSELECTIVITY=$SELECTIVITY -B build
+cd build
+make -j 8 -B
+(cd src && ./Main $FILEPATH $LINEITEMS $EXECUTIONS)
+rm -rf non_vectorized
+mkdir non_vectorized
+mv src/*.csv non_vectorized/
+cd ..
 
 echo "build with vectormrization"
 rm -f build/CMakeCache.txt

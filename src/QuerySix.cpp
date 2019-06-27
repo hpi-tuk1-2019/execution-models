@@ -60,7 +60,7 @@ double QuerySix::op_agg_sum(const table& tab, std::vector<BITMAP_TYPE>& bitmap){
   int sum = 0;
   int size = bitmap.size();
   for (int i = 0; i < size; i++) {
-    sum = db_plus(sum,db_times((int)bitmap[i], db_times(tab.l_extendedprice[i], tab.l_discount[i])));
+    sum = db_plus(sum,db_times(bitmap[i], db_times(tab.l_extendedprice[i], tab.l_discount[i])));
   }
   return (double)sum / 10000.00;
 }
@@ -70,7 +70,7 @@ void QuerySix::op_shipdate_ge(const table& tab, std::vector<BITMAP_TYPE>& bitmap
 #pragma GCC ivdep
 #pragma ivdep
   for (int i = 0; i < size; i++) {
-    bitmap[i] = bitmap[i] * (tab.l_shipdate[i] >= 782784000);
+    bitmap[i] = bitmap[i] * (tab.l_shipdate[i] >= 757382400);
   }
 }
 

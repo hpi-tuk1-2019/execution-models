@@ -2,7 +2,7 @@
 
 mkdir data_volume
 
-for i in `seq 600000 600000 6000000`;
+for i in `seq 600000 6000000 59986050`;
 do
 	export LINEITEMS=$i
 	./execute.sh
