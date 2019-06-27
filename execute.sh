@@ -4,8 +4,8 @@ FILEPATH=../../assets/sample_data2/lineitem.tbl
 LINEITEMS="${LINEITEMS:-5998600}"
 EXECUTIONS="${EXECUTIONS:-20}"
 
-# Selectivity 7 translates to 70%
-SELECTIVITY="${SELECTIVITY:-7}"
+# Selectivity 5 translates to 50% (TCP-H standard)
+SELECTIVITY="${SELECTIVITY:-5}"
 
 # echo "Build without vectorization"
 # rm -f build/CMakeCache.txt
