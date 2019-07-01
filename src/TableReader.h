@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include <array>
-
-typedef std::array<char, 45> dbString;
+// TODO: right now chosen at random, because with the part table 45 threw errors
+#define stringLegth 100
+typedef std::array<char, stringLegth> dbString;
 
 // column based representation of the LINEITEM TPCH table
 

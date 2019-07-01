@@ -15,11 +15,11 @@
 
 class QueryFourteen {
   private:
-      void op_shipdate_ge(std::vector<BITMAP_TYPE>& bm);
-      void op_shipdate_s(std::vector<BITMAP_TYPE>& bm);
-      void op_retailsize(std::vector<BITMAP_TYPE>& bm);
-      void op_join(std::vector<BITMAP_TYPE>& l_bm, const std::vector<BITMAP_TYPE>& p_bm);
-      int op_sum(const std::vector<BITMAP_TYPE>& bm);
+      void op_shipdate_ge(const table& tab, std::vector<BITMAP_TYPE>& bitmap);
+      void op_shipdate_s(const table& tab, std::vector<BITMAP_TYPE>& bitmap);
+      void op_retailsize(const partTable& tab, std::vector<BITMAP_TYPE>& bitmap);
+      std::vector<int> op_join(const partTable& p_tab, const table& l_tab, const std::vector<BITMAP_TYPE>& l_bitmap, const std::vector<BITMAP_TYPE>& p_bitmap);
+      int op_sum(const table& tab, const std::vector<int>& counts);
 
   public:
     int execute(const table& lineitem, const partTable& part);

@@ -1,11 +1,12 @@
 #include "StopWatch.h"
 #include "QuerySix.h"
 #include "QueryOne.h"
+#include "QueryFourteen.h"
 #include <string>
 #include <iostream>
 #include <chrono>
 
-void print_char_array(const std::array<char, 45>& char_array) {
+void print_char_array(const std::array<char, stringLegth>& char_array) {
     for (int i = 0; i < sizeof(char_array); i++) {
         std::cout << char_array[i];
     }
@@ -43,10 +44,11 @@ void print_res_q1(const ResultMap &res) {
 }
 
 int main(int argc, char *argv[]) {
-	if (argc < 4) {
+	/*
+    if (argc < 4) {
 		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
 		return 1;
-	}
+	}*/
 	std::string filename = "../../assets/sample_data/lineitem.tbl";
     std::string partFilename = "../../assets/sample_data/part.tbl";
 	int noLineItems = 6005;
@@ -71,10 +73,11 @@ int main(int argc, char *argv[]) {
     StopWatch q6sw = StopWatch("query six normal");
     StopWatch q6sw2 = StopWatch("query six hybrid");
     StopWatch q6sw1 = StopWatch("query six compiled");
+    StopWatch q14sw = StopWatch("query fourteen normal");
 
     reading.tik();
     auto fileTable = readFile(filename, delim, noLineItems);
-    auto partTable = readPartFile(partFilename, delim, noLineItems);
+    auto partTable = readPartFile(partFilename, delim, 200);
     reading.tok();
     reading.print_stats();
     for (int i = 0; i < noExecutions; i++) {
@@ -117,14 +120,21 @@ int main(int argc, char *argv[]) {
         q6sw1.tok();
         std::cout << resq6 << std::endl;
         q6sw1.print_stats();
+
+        QueryFourteen q14;
+        q14sw.tik();
+        auto res14 = q14.execute(fileTable, partTable);
+        std::cout << res14 << std::endl;
+        q14sw.tok();
+        q14sw.print_stats();
     }
+
     q1sw.write_to_file("q1_normal.csv");
     q1sw1.write_to_file("q1_hybrid.csv");
     q1sw2.write_to_file("q1_compiled.csv");
     q6sw.write_to_file("q6_normal.csv");
     q6sw1.write_to_file("q6_compiled.csv");
     q6sw2.write_to_file("q6_hybrid.csv");
-
 
     return 0;
 }
