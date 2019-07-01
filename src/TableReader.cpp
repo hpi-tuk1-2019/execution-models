@@ -81,3 +81,29 @@ table readFile(const std::string& filename, const char delim, int noLineItems)
 
     return fileTable;
 }
+
+partTable readPartFile(const std::string & filename, const char delim, int noLineItems)
+{
+    std::ifstream file(filename);
+    partTable fileTable;
+
+    if (!file.is_open()) {
+        std::cout << "File cannot be opened";
+        return fileTable;
+    }
+
+    // length of table and columntypes from lineitem.tbl
+    for (int i = 0; i < noLineItems; ++i)
+    {
+        fileTable.p_partkey.push_back(parseInt(file, delim));
+        fileTable.p_name.push_back(parseString(file, delim));
+        fileTable.p_mfgr.push_back(parseString(file, delim));
+        fileTable.p_brand.push_back(parseString(file, delim));
+        fileTable.p_type.push_back(parseString(file, delim));
+        fileTable.p_size.push_back(parseInt(file, delim));
+        fileTable.p_container.push_back(parseString(file, delim));
+        fileTable.p_retailPrice.push_back(parseDecimal(file, delim));
+        fileTable.p_comment.push_back(parseString(file, delim));
+    }
+    return fileTable;
+}

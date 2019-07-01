@@ -48,8 +48,10 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	std::string filename = "../../assets/sample_data/lineitem.tbl";
-	int noLineItems = 0;
-	int noExecutions = 0;
+    std::string partFilename = "../../assets/sample_data/part.tbl";
+	int noLineItems = 6005;
+	int noExecutions = 1;
+    /*
 	try {
 		filename = argv[1];
 		noLineItems = std::stoi(argv[2]);
@@ -59,7 +61,7 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
 		return 1;
 	}
-
+    */
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");
@@ -72,6 +74,7 @@ int main(int argc, char *argv[]) {
 
     reading.tik();
     auto fileTable = readFile(filename, delim, noLineItems);
+    auto partTable = readPartFile(partFilename, delim, noLineItems);
     reading.tok();
     reading.print_stats();
     for (int i = 0; i < noExecutions; i++) {
