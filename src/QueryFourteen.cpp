@@ -52,11 +52,11 @@ std::vector<int> QueryFourteen::op_join(const partTable& p_tab, const table& l_t
     int l_size = l_tab.l_shipdate.size();
     int p_size = p_tab.p_partkey.size();
     std::vector<int> l_counts(l_size, 0);
-#pragma GCC ivdep
-#pragma ivdep
     // this map counts the appearance of every value
     std::unordered_map<int, int> p_counts;
     int count = 0;
+#pragma GCC ivdep
+#pragma ivdep
     for (int i = 0; i < p_size; i++) {
         auto key = p_tab.p_partkey[i];
         // if the key already exists, this insertion is ignored
@@ -64,6 +64,8 @@ std::vector<int> QueryFourteen::op_join(const partTable& p_tab, const table& l_t
         // if the element is still in the table, the number of its occurances is counted up
         p_counts.at(key) += p_bitmap[i];
     }
+#pragma GCC ivdep
+#pragma ivdep
     for (int i = 0; i < l_size; i++) {
         // count all possible combinations of partkeys for the elements still in the lineitem table
         l_counts[i] = db_plus(l_counts[i], db_times(l_bitmap[i], p_counts.at(l_tab.l_partkey[i])));
@@ -104,6 +106,8 @@ int QueryFourteen::execute_compiled(const table& l_tab, const partTable & p_tab)
   int p_size = p_tab.p_partkey.size();
   std::vector<int> l_counts(l_size, 0);
   std::unordered_map<int, int> p_counts;
+#pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < p_size; i++) {
       auto key = p_tab.p_partkey[i];
       // if the key already exists, this insertion is ignored
@@ -112,6 +116,8 @@ int QueryFourteen::execute_compiled(const table& l_tab, const partTable & p_tab)
       p_counts.at(key) += (p_tab.p_retailPrice[i] >= 100000);
   }
   int sum = 0;
+#pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < l_size; i++) {
       // count all possible combinations of partkeys for the elements still in the lineitem table
       sum +=  (l_tab.l_shipdate[i] >= 753753600) *
@@ -132,6 +138,8 @@ int QueryFourteen::execute_hybrid(const table & l_tab, const partTable & p_tab)
   std::unordered_map<int, int> p_counts;
 
   op_shipdate_ge(l_tab, l_bitmap);
+#pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < p_size; i++) {
       auto key = p_tab.p_partkey[i];
       // if the key already exists, this insertion is ignored
@@ -140,6 +148,8 @@ int QueryFourteen::execute_hybrid(const table & l_tab, const partTable & p_tab)
       p_counts.at(key) += (p_tab.p_retailPrice[i] >= 100000);
   }
   int sum = 0;
+#pragma GCC ivdep
+#pragma ivdep
   for (int i = 0; i < l_size; i++) {
       // count all possible combinations of partkeys for the elements still in the lineitem table
       sum +=  l_bitmap[i] *
