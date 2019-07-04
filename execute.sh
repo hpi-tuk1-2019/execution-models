@@ -1,19 +1,8 @@
 FILEPATH=../../assets/sample_data
 LINEITEMS=6000
-EXECUTIONS=10
+EXECUTIONS=20
 
-
-echo "Build without vectorization"
-cd build
-rm CMakeCache.txt
-cmake -DVECTORIZE=OFF -DCMAKE_BUILD_TYPE=Release ..
-make -j 8 -B
-(cd src && ./Main $FILEPATH $LINEITEMS $EXECUTIONS)
-mkdir non_vectorized
-mv src/*.csv non_vectorized/
-cd ..
-
-echo "build with vectormrization"
+echo "build with vectorization"
 cd build
 rm CMakeCache.txt
 cmake -DVECTORIZE=ON -DCMAKE_BUILD_TYPE=Release ..
