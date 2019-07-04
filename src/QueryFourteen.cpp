@@ -65,7 +65,7 @@ std::vector<int> QueryFourteen::op_join(const partTable& p_tab, const table& l_t
     }
     for (int i = 0; i < l_size; i++) {
         // count all possible combinations of partkeys for the elements still in the lineitem table
-        l_counts[i] += l_bitmap[i] * p_counts.at(l_tab.l_partkey[i]);
+        l_counts[i] = dp_plus(l_counts[i], db_times(l_bitmap[i], p_counts.at(l_tab.l_partkey[i])));
     }
     return l_counts;
 }
@@ -78,7 +78,7 @@ int QueryFourteen::op_sum(const table& tab, const std::vector<int> & counts)
     int sum = 0;
     for (int i = 0; i < size; i++) {
         // TODO: Insert correct date here
-        sum += counts[i] * tab.l_extendedprice[i];
+        sum = db_plus(sum, db_times(counts[i],tab.l_extendedprice[i]));
     }
     return sum;
 }
