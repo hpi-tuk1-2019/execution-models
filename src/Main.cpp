@@ -44,18 +44,19 @@ void print_res_q1(const ResultMap &res) {
 }
 
 int main(int argc, char *argv[]) {
-	/*
-    if (argc < 4) {
-		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
-		return 1;
-	}*/
+  if (argc < 4) {
+	   std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
+	return 1;
+	}
 	std::string filename = "../../assets/sample_data/lineitem.tbl";
-    std::string partFilename = "../../assets/sample_data/part.tbl";
+  std::string partFilename = "../../assets/sample_data/part.tbl";
 	int noLineItems = 6005;
 	int noExecutions = 1;
-    /*
+
 	try {
-		filename = argv[1];
+    std::string directory = argv[1];
+		filename = directory + "/lineitem.tbl";
+		partFilename = directory + "/part.tbl";
 		noLineItems = std::stoi(argv[2]);
 		noExecutions = std::stoi(argv[3]);
 	}
@@ -63,7 +64,6 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
 		return 1;
 	}
-    */
     char delim = '|';
 
     StopWatch reading = StopWatch("reading csv");

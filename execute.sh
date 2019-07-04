@@ -1,4 +1,4 @@
-FILEPATH=../../assets/sample_data/lineitem.tbl
+FILEPATH=../../assets/sample_data
 LINEITEMS=6000
 EXECUTIONS=10
 
