@@ -74,6 +74,8 @@ int main(int argc, char *argv[]) {
     StopWatch q6sw2 = StopWatch("query six hybrid");
     StopWatch q6sw1 = StopWatch("query six compiled");
     StopWatch q14sw = StopWatch("query fourteen normal");
+    StopWatch q14sw1 = StopWatch("query fourteen compiled");
+    StopWatch q14sw2 = StopWatch("query fourteen hybrid");
 
     reading.tik();
     auto fileTable = readFile(filename, delim, noLineItems);
@@ -127,6 +129,18 @@ int main(int argc, char *argv[]) {
         std::cout << res14 << std::endl;
         q14sw.tok();
         q14sw.print_stats();
+
+        q14sw1.tik();
+        auto res14c = q14.execute_compiled(fileTable, partTable);
+        std::cout << res14c << std::endl;
+        q14sw1.tok();
+        q14sw1.print_stats();
+
+        q14sw2.tik();
+        auto res14h = q14.execute_hybrid(fileTable, partTable);
+        std::cout << res14h << std::endl;
+        q14sw2.tok();
+        q14sw2.print_stats();
     }
 
     q1sw.write_to_file("q1_normal.csv");
