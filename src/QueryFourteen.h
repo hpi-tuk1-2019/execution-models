@@ -1,7 +1,6 @@
 #pragma once
 #include "TableReader.h"
 #include <map>
-#define BITMAP_TYPE int
 
 /*
 -- SELECT 19.00 * sum(l_extendedprice) as promo_revenue
