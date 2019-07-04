@@ -76,9 +76,9 @@ std::vector<int> QueryFourteen::op_join(const partTable& p_tab, const table& l_t
 int QueryFourteen::op_sum(const table& tab, const std::vector<int> & counts)
 {
     int size = counts.size();
+    int sum = 0;
 #pragma GCC ivdep
 #pragma ivdep
-    int sum = 0;
     for (int i = 0; i < size; i++) {
         sum = db_plus(sum, db_times(counts[i],tab.l_extendedprice[i]));
     }
