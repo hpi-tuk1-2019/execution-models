@@ -43,8 +43,7 @@ void QueryFourteen::op_retailsize(const partTable& tab, std::vector<BITMAP_TYPE>
 #pragma GCC ivdep
 #pragma ivdep
     for (int i = 0; i < size; i++) {
-        // TODO: Insert correct price here
-        bitmap[i] = bitmap[i] * (tab.p_retailPrice[i] >= 95000);
+        bitmap[i] = bitmap[i] * (tab.p_retailPrice[i] >= 100000); // more than 5% for small datasets, but less than 5 percent for big datasets --> 2.5% for scale = 1
     }
 }
 
