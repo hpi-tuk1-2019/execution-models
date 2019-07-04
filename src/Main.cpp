@@ -45,12 +45,13 @@ void print_res_q1(const ResultMap &res) {
 
 int main(int argc, char *argv[]) {
   if (argc < 4) {
-	   std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
+	   std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#parts> <#executions>" << std::endl;
 	return 1;
 	}
 	std::string filename = "../../assets/sample_data/lineitem.tbl";
   std::string partFilename = "../../assets/sample_data/part.tbl";
 	int noLineItems = 6005;
+  int noParts = 200;
 	int noExecutions = 1;
 
 	try {
@@ -58,10 +59,11 @@ int main(int argc, char *argv[]) {
 		filename = directory + "/lineitem.tbl";
 		partFilename = directory + "/part.tbl";
 		noLineItems = std::stoi(argv[2]);
-		noExecutions = std::stoi(argv[3]);
+    noParts = std::stoi(argv[3]);
+		noExecutions = std::stoi(argv[4]);
 	}
 	catch (const std::exception & e) {
-		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#executions>" << std::endl;
+		std::cerr << "Usage: " << argv[0] << " <filepath> <#lineitems> <#parts> <#executions>" << std::endl;
 		return 1;
 	}
     char delim = '|';
@@ -79,7 +81,7 @@ int main(int argc, char *argv[]) {
 
     reading.tik();
     auto fileTable = readFile(filename, delim, noLineItems);
-    auto partTable = readPartFile(partFilename, delim, 200);
+    auto partTable = readPartFile(partFilename, delim, noParts);
     reading.tok();
     reading.print_stats();
     for (int i = 0; i < noExecutions; i++) {
