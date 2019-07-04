@@ -149,6 +149,9 @@ int main(int argc, char *argv[]) {
     q6sw.write_to_file("q6_normal.csv");
     q6sw1.write_to_file("q6_compiled.csv");
     q6sw2.write_to_file("q6_hybrid.csv");
+    q14sw.write_to_file("q14_normal.csv");
+    q14sw1.write_to_file("q14_compiled.csv");
+    q14sw2.write_to_file("q14_hybrid.csv");
 
     return 0;
 }
