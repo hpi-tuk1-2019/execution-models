@@ -33,7 +33,7 @@ void QueryFourteen::op_shipdate_s(const table& tab, std::vector<BITMAP_TYPE> & b
 #pragma ivdep
     for (int i = 0; i < size; i++) {
         // TODO: Insert correct date here
-        bitmap[i] = bitmap[i] * (tab.l_shipdate[i] < 756345600);
+        bitmap[i] = bitmap[i] * (tab.l_shipdate[i] < 819417600);
     }
 }
 
@@ -121,7 +121,7 @@ int QueryFourteen::execute_compiled(const table& l_tab, const partTable & p_tab)
   for (int i = 0; i < l_size; i++) {
       // count all possible combinations of partkeys for the elements still in the lineitem table
       sum +=  (l_tab.l_shipdate[i] >= 753753600) *
-              (l_tab.l_shipdate[i] < 756345600) *
+              (l_tab.l_shipdate[i] < 819417600) *
               p_counts.at(l_tab.l_partkey[i]) *
               l_tab.l_extendedprice[i];
   }
@@ -153,7 +153,7 @@ int QueryFourteen::execute_hybrid(const table & l_tab, const partTable & p_tab)
   for (int i = 0; i < l_size; i++) {
       // count all possible combinations of partkeys for the elements still in the lineitem table
       sum +=  l_bitmap[i] *
-              (l_tab.l_shipdate[i] < 756345600) *
+              (l_tab.l_shipdate[i] < 819417600) *
               p_counts.at(l_tab.l_partkey[i]) *
               l_tab.l_extendedprice[i];
   }
