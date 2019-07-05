@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include <array>
-
-typedef std::array<char, 45> dbString;
+// TODO: right now chosen at random, because with the part table 45 threw errors
+#define stringLegth 100
+typedef std::array<char, stringLegth> dbString;
 
 // column based representation of the LINEITEM TPCH table
 
@@ -26,8 +27,24 @@ struct table {
     std::vector<dbString> l_comment; // variable text size 44
 };
 
+struct partTable {
+    std::vector<int> p_partkey;
+    std::vector<dbString> p_name;
+    std::vector<dbString> p_mfgr;
+    std::vector<dbString> p_brand;
+    std::vector<dbString> p_type;
+    std::vector<int> p_size;
+    std::vector<dbString> p_container;
+    std::vector<int> p_retailPrice;
+    std::vector<dbString> p_comment;
+};
+
 table readFile(const std::string& filename, const char delim, int noLineItems);
+partTable readPartFile(const std::string& filename, const char delim, int noLineItems);
+
 int parseInt(std::ifstream& file, const char delim);
 dbString parseString(std::ifstream& file, const char delim);
 char parseChar(std::ifstream& file, const char delim);
 int parseDate(std::ifstream& file, const char delim);
+
+

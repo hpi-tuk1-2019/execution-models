@@ -1,29 +1,18 @@
 #!/bin/bash -e
 
-FILEPATH=../../assets/sample_data2/lineitem.tbl
-LINEITEMS="${LINEITEMS:-5998600}"
+FILEPATH=assets/sample_data
+LINEITEMS="${LINEITEMS:-$(wc -l $FILEPATH/lineitem.tbl | awk '{print $1}')}"
+PARTS=$(wc -l $FILEPATH/part.tbl | awk '{print $1}')
 EXECUTIONS="${EXECUTIONS:-20}"
 
 # Selectivity 5 translates to 50% (TCP-H standard)
 SELECTIVITY="${SELECTIVITY:-5}"
 
-echo "Build without vectorization"
-rm -f build/CMakeCache.txt
-cd build
-cmake -DVECTORIZE=OFF -DCMAKE_BUILD_TYPE=Release -DSELECTIVITY=$SELECTIVITY ..
-make -j 8 -B
-(cd src && ./Main $FILEPATH $LINEITEMS $EXECUTIONS)
-rm -rf non_vectorized
-mkdir non_vectorized
-mv src/*.csv non_vectorized/
-cd ..
-
-echo "build with vectormrization"
 rm -f build/CMakeCache.txt
 cd build
 cmake -DVECTORIZE=ON -DCMAKE_BUILD_TYPE=Release -DSELECTIVITY=$SELECTIVITY ..
 make -j 8 -B
-(cd src && ./Main $FILEPATH $LINEITEMS $EXECUTIONS)
+(cd src && ./Main $FILEPATH $LINEITEMS $PARTS $EXECUTIONS)
 rm -rf vectorized
 mkdir vectorized
 mv src/*.csv vectorized/
