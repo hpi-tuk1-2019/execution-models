@@ -17,10 +17,15 @@ for level in volumes:
 	compiled_df.append(values_from_file('./data_volume/{}/vectorized/q6_compiled.csv'.format(level)))
 	hybrid_df.append(values_from_file('./data_volume/{}/vectorized/q6_hybrid.csv'.format(level)))
 
+# convert to ms
+compiled_df = [[y/1000000 for y in x] for x in compiled_df]
+veced_df = [[y/1000000 for y in x] for x in veced_df]
+hybrid_df = [[y/1000000 for y in x] for x in hybrid_df]
+
 fig1, ax1 = plt.subplots()
-ax1.plot([np.mean(m) for m in veced_df], '--', label="Vectorized", color="#b1063aff")
-ax1.plot([np.mean(m) for m in compiled_df], '--', label="Compiled",  color="#f6a800ff")
-ax1.plot([np.mean(m) for m in hybrid_df], '--', label="Hybrid", color="#dd640cff")
+ax1.plot([np.mean(m) for m in veced_df], '--', label="Vectorized", color="#b1063aff", marker='o')
+ax1.plot([np.mean(m) for m in compiled_df], '--', label="Compiled",  color="#f6a800ff", marker='v')
+ax1.plot([np.mean(m) for m in hybrid_df], '--', label="Hybrid", color="#dd640cff", marker='s')
 
 get_errors = lambda x: [[np.mean(m) - np.percentile(m, 25) for m in x], [np.percentile(m, 75) - np.mean(m) for m in x]]
 
@@ -31,7 +36,10 @@ plt.errorbar(
 	fmt='.k',
 	capsize=1,
 	elinewidth=.7,
-	color="#b1063aff"
+	mec="#b1063aff",
+	mfc="#b1063aff",
+	marker='o',
+	markersize=8
 )
 
 plt.errorbar(
@@ -41,7 +49,10 @@ plt.errorbar(
 	fmt='.k',
 	capsize=1,
 	elinewidth=.7,
-	color="#f6a800ff"
+	mec="#f6a800ff",
+	mfc="#f6a800ff",
+	marker='v',
+	markersize=8
 )
 
 plt.errorbar(
@@ -51,13 +62,21 @@ plt.errorbar(
 	fmt='.k',
 	capsize=1,
 	elinewidth=.7,
-	color="#dd640cff"
+	mec="#dd640cff",
+	mfc="#dd640cff",
+	marker='s',
+	markersize=8
 )
 
-ax1.set_xlabel('1st Operator Selectivity (in %)')
-ax1.set_ylabel('time in ns')
-ax1.set_xticklabels(volumes)
-ax1.set_title("TPC-H Q 6 (Scale Factor: 1; Executions: 20)")
+volumes_with_comma = ["{:,}".format(int(x)) for x in volumes]
+print(volumes_with_comma)
+
+ax1.set_xlabel('Number of Rows')
+ax1.set_ylabel('ms')
+ax1.get_xaxis().set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
+ax1.get_yaxis().set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
+ax1.set_xticklabels(volumes_with_comma)
+ax1.set_title("TPC-H Q 6 (Executions: 20, means)")
 ax1.legend()
 
 plt.show()
