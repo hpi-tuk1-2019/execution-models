@@ -17,6 +17,12 @@ for level in slectivity_levels:
 	compiled_df.append(values_from_file('./selectivity/{}/vectorized/q6_compiled.csv'.format(level)))
 	hybrid_df.append(values_from_file('./selectivity/{}/vectorized/q6_hybrid.csv'.format(level)))
 
+
+compiled_df = [[y/1000000 for y in x] for x in compiled_df]
+veced_df = [[y/1000000 for y in x] for x in veced_df]
+hybrid_df = [[y/1000000 for y in x] for x in hybrid_df]
+
+
 fig1, ax1 = plt.subplots()
 ax1.plot([np.mean(m) for m in veced_df], '--', label="Vectorized", color="#b1063aff")
 ax1.plot([np.mean(m) for m in compiled_df], '--', label="Compiled",  color="#f6a800ff")
@@ -55,9 +61,12 @@ plt.errorbar(
 )
 
 ax1.set_xlabel('1st Operator Selectivity (in %)')
-ax1.set_ylabel('time in ns')
+ax1.set_ylabel('ms')
+ax1.get_xaxis().set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
+ax1.get_yaxis().set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
 ax1.set_xticklabels([0, 0, 20, 40, 60, 80, 100])
-ax1.set_title("TPC-H Q 6 (Scale Factor: 1; Executions: 20)")
+ax1.set_title("TPC-H Q 6 (Scale Factor: 1; Executions: 20, means)")
 ax1.legend()
 
+plt.savefig('selectivity')
 plt.show()
