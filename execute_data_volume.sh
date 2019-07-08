@@ -7,6 +7,5 @@ do
 	export LINEITEMS=$i
 	./execute.sh
 	mkdir data_volume/$LINEITEMS/
-	mv build/non_vectorized data_volume/$LINEITEMS/
 	mv build/vectorized data_volume/$LINEITEMS/
 done
